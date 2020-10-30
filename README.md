@@ -4,16 +4,25 @@ My sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHu
 ## Local Testing
 
 ``` bash
-python manage.py runserver
+python manage.py runserver  # backend
+
+python run_pooling.py  # test bot in pooling
 ```
 
-Probably you'll also need to run Celery workers & Redis. 
+If you want to test Celery async tasks, you'll also need to run Celery workers & Redis db (provide __REDIS_URL__ in `.env`). 
 
 ### .env
 
 ``` bash
 DJANGO_DEBUG=True
 DATABASE_URL=sqlite:///db.sqlite3
+TELEGRAM_TOKEN=
+```
+
+### Create superuser
+
+``` bash
+python manage.py createsuperuser
 ```
 
 ## Production 

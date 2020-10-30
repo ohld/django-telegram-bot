@@ -22,7 +22,7 @@ SECRET_KEY = os.getenv(
 
 DEBUG = not not os.getenv("DJANGO_DEBUG", False)
 
-ALLOWED_HOSTS = ["*",]  # since Telegram uses a lot of IPs
+ALLOWED_HOSTS = ["*",]  # since Telegram uses a lot of IPs for webhooks
 
 
 INSTALLED_APPS = [
@@ -50,6 +50,7 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -74,7 +75,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'ffmemes.wsgi.application'
+WSGI_APPLICATION = 'dtb.wsgi.application'
+ASGI_APPLICATION = 'dtb.asgi.application'
 
 
 # Database

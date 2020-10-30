@@ -6,6 +6,7 @@ python-dotenv
 django
 django-timezone-field 
 django-cors-headers
+whitenoise
 
 # Django 3.0 async requirements
 gunicorn
@@ -15,7 +16,6 @@ httptools
 
 # Databases
 psycopg2
-whitenoise
 dj-database-url
 
 # Distributed tasks

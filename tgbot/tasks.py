@@ -16,8 +16,7 @@ from celery.decorators import task
 from celery.utils.log import get_task_logger
 
 from dtb.settings import TELEGRAM_TOKEN
-from .bot import message_texts as m
-from .models import (
+from tgbot.models import (
     User,
 )
 

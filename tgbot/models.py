@@ -2,12 +2,13 @@ from django.db import models
 
 import telegram
 
+from dtb.settings import TELEGRAM_TOKEN
 from tgbot import utils
 
 class User(models.Model):
     user_id = models.IntegerField(primary_key=True)
     username = models.CharField(max_length=32, null=True, blank=True)
-    first_name = models.CharField(max_length=256, null=True, blank=True)
+    first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256, null=True, blank=True)
     language_code = models.CharField(max_length=8, null=True, blank=True, help_text="Telegram client's lang")
     deep_link = models.CharField(max_length=64, null=True, blank=True)

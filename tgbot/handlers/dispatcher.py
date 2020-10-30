@@ -1,6 +1,6 @@
-# 
-    Add handlers to dispatcher
-#
+"""
+    Telegram event handlers
+"""
 
 import telegram
 from telegram.ext import (
@@ -10,61 +10,35 @@ from telegram.ext import (
     ChosenInlineResultHandler,
 )
 
-from celery.decorators import task  # to allow event processing to run async
+from celery.decorators import task  # event processing in async mode
 
 from dtb.settings import TELEGRAM_TOKEN
+
+from tgbot.handlers import admin, commands
 
 def setup_dispatcher(dp):
     """
     Adding handlers for events from Telegram
     """
 
-    dp.add_handler(CallbackQueryHandler(reaction_handler, pattern="^r\d+_\d+"))
-
-    dp.add_handler(MessageHandler(
-        Filters.chat(chat_id=int(TELEGRAM_FILESTORAGE_ID)),
-        # & Filters.forwarded & (Filters.photo | Filters.video | Filters.animation),
-        save_forwarded_meme,
-    ))
-
-    dp.add_handler(CommandHandler("start", start_handler))
-    dp.add_handler(CommandHandler("stats", stats))
-    dp.add_handler(CommandHandler("referral", referral))
-    dp.add_handler(CommandHandler("settings", language_handler))
-    dp.add_handler(CommandHandler("lang", language_handler))
-    dp.add_handler(CommandHandler("info", info_handler))
-    dp.add_handler(CommandHandler("ads", ads_handler))
-    dp.add_handler(CommandHandler("search", search_command))
-
-    dp.add_handler(InlineQueryHandler(search_inline))
+    dp.add_handler(CommandHandler("start", commands.start))
 
     # admin commands
-    dp.add_handler(CommandHandler("mod", make_moderator))
-    dp.add_handler(CommandHandler("merge", merge_memes_handler))
-    dp.add_handler(CommandHandler("show", show_memes))
-    dp.add_handler(CommandHandler("source", add_source))
-    dp.add_handler(CommandHandler("admin", admin_list))
-    dp.add_handler(CommandHandler("search_user", search_user))
-    dp.add_handler(CommandHandler("set_lang", set_lang))
-    dp.add_handler(CommandHandler("liked", last_user_liked_memes))
-    dp.add_handler(CommandHandler("disliked", last_user_disliked_memes))
+    dp.add_handler(CommandHandler("admin", admin.admin))
+    dp.add_handler(CommandHandler("stats", admin.stats))
 
 
-    dp.add_handler(CallbackQueryHandler(channel_reaction_handler, pattern="^c\d+_\d+"))
-    dp.add_handler(CallbackQueryHandler(language_handler, pattern=f"^{LANGUAGE_CALLBACK}"))
-    dp.add_handler(CallbackQueryHandler(add_hack_consumer, pattern="^add_hack_consumer"))
-    dp.add_handler(CallbackQueryHandler(delete_handler, pattern="^delete"))
-
-    dp.add_handler(ChosenInlineResultHandler(search_chosen_result))
-
-    # dp.add_handler(CallbackQueryHandler(onboarding_handler, pattern="^h\d+"))
-    # dp.add_handler(CallbackQueryHandler(ads_handler, pattern="^a\d+_\d+"))
-
-    dp.add_handler(MessageHandler(Filters.text, start_handler))
-
-    dp.add_handler(MessageHandler(
-        Filters.document, file_handler,
-    ))
+    # Handlers examples
+    # dp.add_handler(MessageHandler(Filters.text, start_handler))
+    # dp.add_handler(MessageHandler(
+    #     Filters.document, file_handler,
+    # ))
+    # dp.add_handler(CallbackQueryHandler(reaction_handler, pattern="^r\d+_\d+"))
+    # dp.add_handler(MessageHandler(
+    #     Filters.chat(chat_id=int(TELEGRAM_FILESTORAGE_ID)),
+    #     # & Filters.forwarded & (Filters.photo | Filters.video | Filters.animation),
+    #     save_forwarded_meme,
+    # ))
 
     return dp
 
@@ -76,6 +50,10 @@ def run_pooling():
     dp = updater.dispatcher
     dp = setup_dispatcher(dp)
 
+    bot_info = telegram.Bot(TELEGRAM_TOKEN).get_me()
+    bot_link = f"https://t.me/" + bot_info["username"]
+
+    print(f"Pooling of '{bot_link}' started")
     updater.start_polling()
     updater.idle()
 

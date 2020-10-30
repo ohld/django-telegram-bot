@@ -4,7 +4,7 @@ import telegram
 from tgbot.models import User
 
 # @send_typing_action
-def handle_start(update, context):
+def start(update, context):
     u, created = User.get_user_and_created(update, context)
 
     if created:

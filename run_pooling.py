@@ -1,6 +1,6 @@
 import os, django
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ffmemes.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dtb.settings')
 django.setup()
 
 from tgbot.handlers.dispatcher import run_pooling
