@@ -33,6 +33,6 @@ def broadcast_message(user_ids, message, sleep_between=0.2):
             logger.info(f"Broadcast message was sent to {u}")
         except Exception as e:
             logger.error(f"Failed to send message to {u}, reason: {e}" )
-        time.sleep(max(sleep_between), 0.1)
+        time.sleep(max(sleep_between, 0.1))
 
     logger.info("Broadcast finished!")
