@@ -1,0 +1,31 @@
+pytz
+requests
+python-dotenv
+
+# Django
+django
+django-timezone-field 
+django-cors-headers
+
+# Django 3.0 async requirements
+gunicorn
+uvicorn
+uvloop
+httptools
+
+# Databases
+psycopg2
+whitenoise
+dj-database-url
+
+# Distributed tasks
+tornado==5.1.1
+celery
+redis
+django-celery-beat
+
+# Telegram
+python-telegram-bot
+
+# monitoring
+# sentry-sdk
