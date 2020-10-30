@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # local apps
     'tgbot.apps.TgbotConfig',
+    'gumroad.apps.GumroadConfig',
 ]
 
 MIDDLEWARE = [
@@ -162,3 +163,7 @@ TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 #     # django.contrib.auth) you may enable sending PII data.
 #     send_default_pii=True
 # )
+
+
+# -------> GUMROAD
+GUMROAD_ACCESS_TOKEN = os.getenv("GUMROAD_ACCESS_TOKEN", "")
