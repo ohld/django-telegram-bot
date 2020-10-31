@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # local apps
     'tgbot.apps.TgbotConfig',
     'gumroad.apps.GumroadConfig',
+    'redtube.apps.RedtubeConfig',
 ]
 
 MIDDLEWARE = [
