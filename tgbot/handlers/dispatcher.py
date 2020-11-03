@@ -14,7 +14,7 @@ from celery.decorators import task  # event processing in async mode
 
 from dtb.settings import TELEGRAM_TOKEN
 
-from tgbot.handlers import admin, commands
+from tgbot.handlers import admin, commands, files
 
 def setup_dispatcher(dp):
     """
@@ -26,6 +26,10 @@ def setup_dispatcher(dp):
     # admin commands
     dp.add_handler(CommandHandler("admin", admin.admin))
     dp.add_handler(CommandHandler("stats", admin.stats))
+
+    dp.add_handler(MessageHandler(
+        Filters.animation, files.show_file_id,
+    ))
 
 
     # Handlers examples

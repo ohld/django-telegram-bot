@@ -1,1 +1,3 @@
 web=1
+worker=0
+beat=0
