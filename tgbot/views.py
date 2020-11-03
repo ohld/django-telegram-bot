@@ -10,10 +10,13 @@ def index(request):
 
 
 class TelegramBotWebhookView(View):
+    # WARNING: if fail - Telegram webhook will be delivered again. 
+    # Can be fixed with async celery task execution
     def post(self, request, *args, **kwargs):
         process_telegram_event(json.loads(request.body))
 
         # TODO: there is a great trick to send data in webhook response
+        # e.g. remove buttons
         return JsonResponse({"ok": "POST request processed"})
     
     def get(self, request, *args, **kwargs):  # for debug
