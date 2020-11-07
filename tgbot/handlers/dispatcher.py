@@ -75,3 +75,4 @@ def process_telegram_event(update_json):
 # Global variable - best way I found to init Telegram bot
 bot = telegram.Bot(TELEGRAM_TOKEN)
 dispatcher = setup_dispatcher(Dispatcher(bot, None, workers=0, use_context=True))
+TELEGRAM_BOT_USERNAME = bot.get_me()["username"]

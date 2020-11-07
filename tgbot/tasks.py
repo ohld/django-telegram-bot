@@ -36,3 +36,28 @@ def broadcast_message(user_ids, message, sleep_between=0.2):
         time.sleep(max(sleep_between, 0.1))
 
     logger.info("Broadcast finished!")
+
+
+@task(ignore_result=True)
+def send_payment_confirmation(user_id):
+    u = User.objects.filter(user_id=user_id).first()
+
+    bot = telegram.Bot(TELEGRAM_TOKEN)
+    bot.send_animation(
+        chat_id=user_id,
+        animation="",  # TODO: add file_id of sexy animation
+        caption=f"""
+😱 Wow! Welcome to Private Party.
+
+😘 Your purchase was successful.
+
+💰 Now your balance is ${u.balance}!
+
+Like it? Share @best_smm_panel_bot with friends 👇
+        """,
+        reply_markup=telegram.InlineKeyboardMarkup([
+            [
+                telegram.InlineKeyboardButton("Share Bot! 😛", url=f'https://t.me/share/url?url=t.me/best_smm_panel_bot&text=Try%20it%2C%20I%20wonder%20what%20you%20get%20%F0%9F%98%8F'),
+            ],
+        ]),
+    )
