@@ -89,4 +89,8 @@ class User(models.Model):
         return success
 
 
-
+class Location(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
