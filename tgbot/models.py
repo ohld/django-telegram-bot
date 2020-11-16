@@ -53,8 +53,8 @@ class User(models.Model):
         """ Search user in DB, return User or None if not found """
         username = str(string).replace("@", "").strip().lower()
         if username.isdigit():  # user_id
-            return User.objects.filter(user_id=int(username)).first()
-        return User.objects.filter(username__iexact=username).first()
+            return cls.objects.filter(user_id=int(username)).first()
+        return cls.objects.filter(username__iexact=username).first()
 
     def invited_users(self):  # --> User queryset 
         return User.objects.filter(deep_link=str(self.user_id), created_at__gt=self.created_at)
