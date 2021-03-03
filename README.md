@@ -64,7 +64,7 @@ docker ps -a
 ```
 It should look similar to this:
 <p align="left">
-    <img src="./.github/imgs/containers_status.png" width="50%" height="70%">
+    <img src="./.github/imgs/containers_status.png">
 </p>
 
 Try visit <a href="http://0.0.0.0:8000/tgadmin">django-admin panel</a>
