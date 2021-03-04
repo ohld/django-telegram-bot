@@ -2,15 +2,6 @@
 My sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub Actions template
 
 ## Local Testing
-
-``` bash
-python manage.py runserver  # backend
-
-python run_pooling.py  # test bot in pooling
-```
-
-If you want to test Celery async tasks, you'll also need to run Celery workers & Redis db (provide __REDIS_URL__ in `.env`). 
-
 ### .env
 
 ``` bash
@@ -27,7 +18,7 @@ DB_NAME=postgres
 DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:${DB_CONTAINER_PORT}/${DB_NAME}
 ```
 
-## docker-compose
+### docker-compose
 
 To run all services (django, postgres, redis, celery) at once type
 ``` bash
@@ -45,7 +36,7 @@ It should look similar to this:
 
 Try visit <a href="http://0.0.0.0:8000/tgadmin">django-admin panel</a>
 
-## Custom database
+### Custom database
 
 To create user with password and database in PostgreSQL stop all containers: 
 ``` bash
