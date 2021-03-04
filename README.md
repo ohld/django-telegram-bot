@@ -33,16 +33,8 @@ To run all services (django, postgres, redis, celery) at once type
 ``` bash
 docker-compose up -d --build
 ```
-Likely, you'll see some problems with your celery_beat container. It happens
-because of unapplied migrations. To apply them:
-``` bash
-docker exec -it django python manage.py migrate
-```
-After that run docker-compose again:
-``` bash
-docker-compose up -d 
-```
-Check status of containers.
+
+Check status of the containers.
 ``` bash
 docker ps -a
 ```
@@ -64,8 +56,6 @@ Change corresponding variables in .env file (DB_NAME, DB_USER, DB_USER_PASSWORD)
 docker-compose up -d --build
 docker exec -it postgres_db bash
 psql -v DB_NAME="${DB_NAME}" -v DB_USER="${DB_USER}" -v DB_USER_PASSWORD="'${DB_USER_PASSWORD}'" -U postgres < sql/init.sql
-docker exec -it django python manage.py migrate
-docker-compose up -d --build
 ```
 
 ### Create superuser
