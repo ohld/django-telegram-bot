@@ -29,9 +29,6 @@ TG_BOT_CONTAINER_NAME=tg_bot
 #Django
 DJANGO_DEBUG=True
 
-#Redis
-REDIS_URL=redis://redis:6379
-
 #Telegram
 TELEGRAM_TOKEN=bot_token
 
