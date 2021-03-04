@@ -44,7 +44,8 @@ DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:${DB_CONTAINER_PORT}/$
 
 ```
 
-##docker-compose
+## docker-compose
+
 To run all services (django, postgres, redis, celery) at once type
 ``` bash
 docker-compose up -d --build
@@ -69,7 +70,8 @@ It should look similar to this:
 
 Try visit <a href="http://0.0.0.0:8000/tgadmin">django-admin panel</a>
 
-##Custom database
+## Custom database
+
 To create user with password and database in PostgreSQL stop all containers: 
 ``` bash
 docker-compose down
