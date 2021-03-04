@@ -14,14 +14,14 @@ services:
     env_file:
       - ./.env
     ports:
-      - 5433:${DB_CONTAINER_PORT}
+      - 5433:5432
   redis:
     image: redis:alpine
     container_name: redis
   web:
     build: .
     container_name: django
-    command: python manage.py runserver 0.0.0.0:8000
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:

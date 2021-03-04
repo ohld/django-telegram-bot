@@ -2,12 +2,9 @@
 My sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub Actions template
 
 ## Local Testing
-### .env
+### Create .env file
 
 ``` bash
-#docker-compose
-DB_CONTAINER_PORT=5432
-
 #Telegram
 TELEGRAM_TOKEN=bot_token
 
@@ -20,7 +17,7 @@ DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:${DB_CONTAINER_PORT}/$
 
 ### docker-compose
 
-To run all services (django, postgres, redis, celery) at once type
+To run all services (django, postgres, redis, celery) at once:
 ``` bash
 docker-compose up -d --build
 ```
@@ -36,23 +33,16 @@ It should look similar to this:
 
 Try visit <a href="http://0.0.0.0:8000/tgadmin">django-admin panel</a>
 
-### Custom database
-
-To create user with password and database in PostgreSQL stop all containers: 
-``` bash
-docker-compose down
-```
-Change corresponding variables in .env file (DB_NAME, DB_USER, DB_USER_PASSWORD)<br>
-```bash 
-docker-compose up -d --build
-docker exec -it postgres_db bash
-psql -v DB_NAME="${DB_NAME}" -v DB_USER="${DB_USER}" -v DB_USER_PASSWORD="'${DB_USER_PASSWORD}'" -U postgres < sql/init.sql
-```
-
-### Create superuser
+### Create superuser using docker
 
 ``` bash
 docker exec -it django python manage.py createsuperuser
+```
+
+### Create superuser using usual python
+
+``` bash
+python manage.py runserver
 ```
 
 ## Production 
