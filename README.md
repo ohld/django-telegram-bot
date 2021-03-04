@@ -15,10 +15,7 @@ If you want to test Celery async tasks, you'll also need to run Celery workers &
 
 ``` bash
 #docker-compose
-DB_LOCAL_PORT=5433
 DB_CONTAINER_PORT=5432
-DJANGO_LOCAL_PORT=8000
-DJANGO_CONTAINER_PORT=8000
 
 #Telegram
 TELEGRAM_TOKEN=bot_token
