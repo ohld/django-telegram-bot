@@ -33,16 +33,16 @@ It should look similar to this:
 
 Try visit <a href="http://0.0.0.0:8000/tgadmin">django-admin panel</a>
 
-### Create superuser using docker
+### Enter django shell if you are using docker
 
 ``` bash
-docker exec -it django python manage.py createsuperuser
+docker exec -it django bash
 ```
 
-### Create superuser using usual python
+### Create superuser
 
 ``` bash
-python manage.py runserver
+python manage.py createsuperuser
 ```
 
 ## Production 
