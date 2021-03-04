@@ -3,7 +3,7 @@ version: "3.8"
 services:
   db:
     image: postgres:12
-    container_name: ${DB_CONTAINER_NAME}
+    container_name: postgres_db
     restart: always
     volumes:
       - postgres_data:/var/lib/postgresql/data/
@@ -14,18 +14,20 @@ services:
     env_file:
       - ./.env
     ports:
-      - ${DB_LOCAL_PORT}:${DB_CONTAINER_PORT}
+      - 5433:${DB_CONTAINER_PORT}
   redis:
     image: redis:alpine
-    container_name: ${REDIS_CONTAINER_NAME}
+    container_name: redis
   web:
     build: .
-    container_name: ${WEB_CONTAINER_NAME}
-    command: python manage.py runserver 0.0.0.0:${DJANGO_LOCAL_PORT}
+    container_name: django
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
-      - ${DJANGO_LOCAL_PORT}:${DJANGO_CONTAINER_PORT}
+      - 8000:8000
+    environment:
+      - DJANGO_DEBUG='True'
     env_file:
       - ./.env
     depends_on:
@@ -33,7 +35,7 @@ services:
       - redis
   bot:
     build: .
-    container_name: ${TG_BOT_CONTAINER_NAME}
+    container_name: tg_bot
     command: python run_pooling.py
     env_file:
       - ./.env
@@ -41,7 +43,7 @@ services:
       - web
   celery:
     build: .
-    container_name: ${CELERY_CONTAINER_NAME}
+    container_name: celery
     command: celery -A dtb worker --loglevel=INFO
     volumes:
       - .:/code
@@ -52,7 +54,7 @@ services:
       - web
   celery-beat:
     build: .
-    container_name: ${CELERY_BEAT_CONTAINER_NAME}
+    container_name: celery_beat
     command: celery -A dtb beat --loglevel=INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     volumes:
       - .:/code

@@ -14,20 +14,11 @@ If you want to test Celery async tasks, you'll also need to run Celery workers &
 ### .env
 
 ``` bash
-#DOCKER-COMPOSE
+#docker-compose
 DB_LOCAL_PORT=5433
 DB_CONTAINER_PORT=5432
-DB_CONTAINER_NAME=postgres_db
 DJANGO_LOCAL_PORT=8000
 DJANGO_CONTAINER_PORT=8000
-WEB_CONTAINER_NAME=django
-REDIS_CONTAINER_NAME=redis
-CELERY_CONTAINER_NAME=celery
-CELERY_BEAT_CONTAINER_NAME=celery_beat
-TG_BOT_CONTAINER_NAME=tg_bot
-
-#Django
-DJANGO_DEBUG=True
 
 #Telegram
 TELEGRAM_TOKEN=bot_token
@@ -37,8 +28,6 @@ DB_USER=postgres
 DB_USER_PASSWORD=postgres
 DB_NAME=postgres
 DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:${DB_CONTAINER_PORT}/${DB_NAME}
-
-
 ```
 
 ## docker-compose
