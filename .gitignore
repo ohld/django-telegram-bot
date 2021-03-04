@@ -131,3 +131,6 @@ dmypy.json
 
 #PyCharm
 .idea/
+
+#Docker
+.Dockerfile.swp
