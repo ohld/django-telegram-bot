@@ -77,7 +77,6 @@ To create user with password and database in PostgreSQL stop all containers:
 docker-compose down
 ```
 Change corresponding variables in .env file (DB_USER, DB_USER_PASSWORD, ...)<br>
-<b>WARNING: remove backslash left to dollar before applying script</b>
 ```bash 
 docker-compose up -d --build
 docker exec -it postgres_db bash
