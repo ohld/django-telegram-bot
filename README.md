@@ -2,21 +2,41 @@
 My sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub Actions template
 
 ## Local Testing
+### Create .env file
 
 ``` bash
-python manage.py runserver  # backend
+#Telegram
+TELEGRAM_TOKEN=bot_token
 
-python run_pooling.py  # test bot in pooling
+#DB
+DB_USER=postgres
+DB_USER_PASSWORD=postgres
+DB_NAME=postgres
+DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:${DB_CONTAINER_PORT}/${DB_NAME}
 ```
 
-If you want to test Celery async tasks, you'll also need to run Celery workers & Redis db (provide __REDIS_URL__ in `.env`). 
+### docker-compose
 
-### .env
+To run all services (django, postgres, redis, celery) at once:
+``` bash
+docker-compose up -d --build
+```
+
+Check status of the containers.
+``` bash
+docker ps -a
+```
+It should look similar to this:
+<p align="left">
+    <img src="./.github/imgs/containers_status.png">
+</p>
+
+Try visit <a href="http://0.0.0.0:8000/tgadmin">django-admin panel</a>
+
+### Enter django shell if you are using docker
 
 ``` bash
-DJANGO_DEBUG=True
-DATABASE_URL=sqlite:///db.sqlite3
-TELEGRAM_TOKEN=
+docker exec -it django bash
 ```
 
 ### Create superuser
