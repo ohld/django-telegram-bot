@@ -61,6 +61,12 @@ You might need to added `.env` variables to app, e.g. Telegram token:
 dokku config:set dtb TELEGRAM_TOKEN=.....
 ```
 
+Let's explicitly specify python buildpack to not mess with `Dockerfile` which is used mostly for local testing.
+
+``` bash
+dokku config:set dtb BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-python.git#v191
+```
+
 **Postgres** and **Redis** are configured as Dokku plugins on a server. They will automatically add REDIS_URL & DATABASE_URL env vars to app. You might need to install these Dokku plugins before.
 
 ``` bash
@@ -71,7 +77,6 @@ dokku redis:create dtb
 dokku redis:link dtb dtb
 ```
 
-
 ### Deploy on commit with Github Actions
 
 Go to file .github/workflows/dokku.yml, enter your host name, deployed dokku app name and set SSH_PRIVATE_KEY secret variable via GitHub repo settings. This will trigger Dokku's zero-downtime deployment.
@@ -79,7 +84,7 @@ Go to file .github/workflows/dokku.yml, enter your host name, deployed dokku app
 
 ### HTTPS & Telegram bot webhook
 
-For Telegram bot API webhook usage you'll need a **https** which can be done using Letsencrypt dokku plugin. You will need to attach a domain to your Django app before and specify email (required by Letsencrypt).
+For Telegram bot API webhook usage you'll need a **https** which can be done using Letsencrypt dokku plugin. You will need to attach a domain to your Django app before and specify email (required by Letsencrypt). This will work only after a successfull deployment. 
 
 ``` bash
 dokku domains:add dtb <YOURDOMAIN.COM>
