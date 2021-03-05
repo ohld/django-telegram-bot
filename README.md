@@ -91,3 +91,12 @@ dokku domains:add dtb <YOURDOMAIN.COM>
 dokku config:set --global DOKKU_LETSENCRYPT_EMAIL=<YOUR@EMAIL.COM>
 dokku letsencrypt dtb
 ```
+
+
+# Setup Telegram Bot API webhook
+
+Just open in the browser:
+
+```
+https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://<YOURDOMAIN.COM>/super_secter_webhook/
+```
