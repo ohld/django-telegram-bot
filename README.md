@@ -47,10 +47,42 @@ python manage.py createsuperuser
 
 ## Production 
 
-All services that are going to be launched in production can be found in `Procfile` file. Dokku (open-source version of Heroku) uses `requirements.txt` to install everything and `Procfile` to run services afterwards. In `DOKKU_SCALE` you can find the number of processes to be launched (for load balancing).
+All services that are going to be launched in production can be found in `Procfile` file. Dokku (open-source version of Heroku which also uses `Buildpacks` technology) uses `requirements.txt` to install everything and `Procfile` to run services afterwards. In `DOKKU_SCALE` you can find the number of processes to be launched (for load balancing).
 
-**Postgres** and **Redis** are configured as Dokku plugins on a server. 
+### Create Dokku app
+
+``` bash
+dokku apps:create dtb
+```
+
+You might need to added `.env` variables to app, e.g. Telegram token:
+
+``` bash
+dokku config:set TELEGRAM_TOKEN=.....
+```
+
+**Postgres** and **Redis** are configured as Dokku plugins on a server. They will automatically add REDIS_URL & DATABASE_URL env vars to app. You might need to install these Dokku plugins before.
+
+``` bash
+dokku postgres:create dtb
+dokku postgres:link dtb dtb
+
+dokku redis:create dtb
+dokku redis:link dtb dtb
+```
+
 
 ### Deploy on commit with Github Actions
 
-Go to file .github/workflows/dokku.yml, enter your host name, deployed dokku app name and set SSH_PRIVATE_KEY secret variable via GitHub repo settings.
+Go to file .github/workflows/dokku.yml, enter your host name, deployed dokku app name and set SSH_PRIVATE_KEY secret variable via GitHub repo settings. This will trigger Dokku's zero-downtime deployment.
+
+
+### HTTPS & Telegram bot webhook
+
+For Telegram bot API webhook usage you'll need a **https** which can be done using Letsencrypt dokku plugin. You will need to attach a domain to your Django app before and specify email (required by Letsencrypt).
+
+``` bash
+dokku domains:add dtb <YOURDOMAIN.COM>
+dokku config:set --global DOKKU_LETSENCRYPT_EMAIL=<YOUR@EMAIL.COM>
+dokku letsencrypt dtb
+```
