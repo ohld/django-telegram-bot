@@ -10,7 +10,7 @@ def ask_for_location(update, context):
         chat_id=u.user_id, text="Would you mind sharing your location?",
         reply_markup=telegram.ReplyKeyboardMarkup([
             [telegram.KeyboardButton(text="Send 🌏🌎🌍", request_location=True)]
-        ]),
+        ], resize_keyboard=True),
     )
 
 

@@ -3,9 +3,9 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from dtb.settings import DEBUG, TELEGRAM_TOKEN
+from dtb.settings import DEBUG
 
-from tgbot.models import User
+from tgbot.models import User, Location, Arcgis
 from tgbot.forms import BroadcastForm
 
 from tgbot.tasks import broadcast_message
@@ -46,3 +46,13 @@ class UserAdmin(admin.ModelAdmin):
         return render(
             request, "admin/broadcast_message.html", {'items': queryset,'form': form, 'title':u' '}
         )
+
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_id', 'created_at']
+
+
+@admin.register(Arcgis)
+class ArcgisAdmin(admin.ModelAdmin):
+    list_display = ['location', 'city', 'country_code']
