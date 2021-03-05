@@ -20,6 +20,6 @@ jobs:
       uses: idoberko2/dokku-deploy-github-action@v1
       with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          dokku-host: '<ENTER HOST>'
-          app-name: '<DOKKU APP NAME>'
+          dokku-host: 't.okhlopkov.com'
+          app-name: 'dtb'
           git-push-flags: '--force'
