@@ -58,7 +58,7 @@ dokku apps:create dtb
 You might need to added `.env` variables to app, e.g. Telegram token:
 
 ``` bash
-dokku config:set TELEGRAM_TOKEN=.....
+dokku config:set dtb TELEGRAM_TOKEN=.....
 ```
 
 **Postgres** and **Redis** are configured as Dokku plugins on a server. They will automatically add REDIS_URL & DATABASE_URL env vars to app. You might need to install these Dokku plugins before.
