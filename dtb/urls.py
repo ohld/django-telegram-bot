@@ -18,6 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('tgadmin/', admin.site.urls),
-    path('gumroad/', include('gumroad.urls')),
     path('', include('tgbot.urls')),
 ]
