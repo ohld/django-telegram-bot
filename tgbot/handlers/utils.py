@@ -2,6 +2,7 @@ import telegram
 from functools import wraps
 from dtb.settings import ENABLE_DECORATOR_LOGGING
 from django.utils import timezone
+from tgbot.models import UserActionLog
 
 
 def send_typing_action(func):
@@ -29,6 +30,7 @@ def get_userid_from_update(update):
 def handler_logging(func):
     def handler(update, context, *args, **kwargs):
         user_id = get_userid_from_update(update)
+        UserActionLog.objects.create(user_id=user_id, action=func.__name__, created_at=timezone.now())
         print(f"user with id = {user_id} pressed {func.__name__} at {timezone.now()}")
         return func(update, context, *args, **kwargs)
 

@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from dtb.settings import DEBUG, TELEGRAM_TOKEN
 
-from tgbot.models import User
+from tgbot.models import User, UserActionLog
 from tgbot.forms import BroadcastForm
 
 from tgbot.tasks import broadcast_message
@@ -46,3 +46,8 @@ class UserAdmin(admin.ModelAdmin):
         return render(
             request, "admin/broadcast_message.html", {'items': queryset,'form': form, 'title':u' '}
         )
+
+
+@admin.register(UserActionLog)
+class UserActionLogAdmin(admin.ModelAdmin):
+    list_display = ['user_id', 'action', 'created_at']
