@@ -32,6 +32,4 @@ def handler_logging(func):
         user_id = get_userid_from_update(update)
         UserActionLog.objects.create(user_id=user_id, action=func.__name__, created_at=timezone.now())
         return func(update, context, *args, **kwargs)
-
-
     return handler if ENABLE_DECORATOR_LOGGING else func
