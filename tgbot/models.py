@@ -1,10 +1,9 @@
-from django.db import models
-
-from dtb.settings import TELEGRAM_TOKEN
-from tgbot import utils
-
 import telegram
 import requests
+
+from django.db import models
+from dtb.settings import TELEGRAM_TOKEN
+from tgbot import utils
 
 
 class User(models.Model):
@@ -102,8 +101,8 @@ class Location(models.Model):
 
     def save(self, *args, **kwargs):
         super(Location, self).save(*args, **kwargs)
-        arcgis_json = Arcgis.reverse_geocode(self.latitude, self.longitude)
-        Arcgis.from_json(arcgis_json, self.pk)
+        from .tasks import save_data_from_arcgis
+        save_data_from_arcgis.delay(latitude=self.latitude, longitude=self.longitude, location_id=self.pk)
 
 
 class Arcgis(models.Model):
