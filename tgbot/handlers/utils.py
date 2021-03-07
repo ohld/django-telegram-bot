@@ -31,7 +31,6 @@ def handler_logging(func):
     def handler(update, context, *args, **kwargs):
         user_id = get_userid_from_update(update)
         UserActionLog.objects.create(user_id=user_id, action=func.__name__, created_at=timezone.now())
-        print(f"user with id = {user_id} pressed {func.__name__} at {timezone.now()}")
         return func(update, context, *args, **kwargs)
 
 
