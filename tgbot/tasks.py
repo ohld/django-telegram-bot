@@ -3,26 +3,19 @@
 """
 
 import time
-import random
 import telegram
-import datetime
 
-from telegram.error import BadRequest
-
-from django.utils.timezone import now
-from django.db.models import Count
-
-from celery.decorators import task
+from dtb.celery import app
 from celery.utils.log import get_task_logger
 
 from dtb.settings import TELEGRAM_TOKEN
 from tgbot.models import (
-    User,
+    User, Arcgis
 )
 
 logger = get_task_logger(__name__)
 
-@task(ignore_result=True)
+@app.task(ignore_result=True)
 def broadcast_message(user_ids, message, sleep_between=0.2):
     logger.info(f"Going to send message: '{message}' to {len(user_ids)} users")
 
@@ -38,7 +31,7 @@ def broadcast_message(user_ids, message, sleep_between=0.2):
     logger.info("Broadcast finished!")
 
 
-@task(ignore_result=True)
+@app.task(ignore_result=True)
 def send_payment_confirmation(user_id):
     u = User.objects.filter(user_id=user_id).first()
 
@@ -61,3 +54,8 @@ Like it? Share @best_smm_panel_bot with friends 👇
             ],
         ]),
     )
+
+
+@app.task(ignore_result=True)
+def save_data_from_arcgis(latitude, longitude, location_id):
+    Arcgis.from_json(Arcgis.reverse_geocode(latitude, longitude), location_id=location_id)

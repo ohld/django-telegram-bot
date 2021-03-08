@@ -12,7 +12,7 @@ TELEGRAM_TOKEN=bot_token
 DB_USER=postgres
 DB_USER_PASSWORD=postgres
 DB_NAME=postgres
-DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:${DB_CONTAINER_PORT}/${DB_NAME}
+DATABASE_URL=postgres://${DB_USER}:${DB_USER_PASSWORD}@db:5432/${DB_NAME}
 ```
 
 ### docker-compose
