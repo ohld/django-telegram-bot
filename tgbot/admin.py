@@ -3,8 +3,9 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from dtb.settings import DEBUG, TELEGRAM_TOKEN
+from dtb.settings import DEBUG
 
+from tgbot.models import User, Location, Arcgis
 from tgbot.models import User, UserActionLog
 from tgbot.forms import BroadcastForm
 
@@ -46,8 +47,3 @@ class UserAdmin(admin.ModelAdmin):
         return render(
             request, "admin/broadcast_message.html", {'items': queryset,'form': form, 'title':u' '}
         )
-
-
-@admin.register(UserActionLog)
-class UserActionLogAdmin(admin.ModelAdmin):
-    list_display = ['user_id', 'action', 'created_at']
