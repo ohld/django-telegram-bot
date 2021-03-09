@@ -7,6 +7,6 @@ If you like docker-compose you can check [full instuctions in our Wiki](https://
 
 ## Deploy to Production 
 
-Read Wiki page on how to ]deploy production-ready](https://github.com/ohld/django-telegram-bot/wiki/Production-Deployment-using-Dokku) scalable Telegram bot using Dokku.
+Read Wiki page on how to [deploy production-ready](https://github.com/ohld/django-telegram-bot/wiki/Production-Deployment-using-Dokku) scalable Telegram bot using Dokku.
 
 
