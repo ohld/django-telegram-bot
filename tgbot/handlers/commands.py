@@ -1,11 +1,11 @@
-import time
 import telegram
+import datetime
 
 from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
 
 # @send_typing_action
-@handler_logging
+@handler_logging()
 def start(update, context):
     u, created = User.get_user_and_created(update, context)
 
@@ -23,7 +23,7 @@ def stats(update, context):
 
     text = f"""
 *Users*: {User.objects.count()}
-*24h active*: {User.objects.filter(updated_at__gte=now() - datetime.timedelta(hours=24)).count()}
+*24h active*: {User.objects.filter(updated_at__gte=datetime.datetime.now() - datetime.timedelta(hours=24)).count()}
     """
 
     return update.message.reply_text(

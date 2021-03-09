@@ -27,9 +27,13 @@ def get_userid_from_update(update):
     return user_id
 
 
-def handler_logging(func):
-    def handler(update, context, *args, **kwargs):
-        user_id = get_userid_from_update(update)
-        UserActionLog.objects.create(user_id=user_id, action=func.__name__, created_at=timezone.now())
-        return func(update, context, *args, **kwargs)
-    return handler if ENABLE_DECORATOR_LOGGING else func
+def handler_logging(action_name=None):
+    def decor(func):
+        def handler(update, context, *args, **kwargs):
+            user_id = get_userid_from_update(update)
+            action = f"{func.__module__}.{func.__name__}" if not action_name else action_name
+            UserActionLog.objects.create(user_id=user_id, action=action, created_at=timezone.now())
+            return func(update, context, *args, **kwargs)
+        return handler if ENABLE_DECORATOR_LOGGING else func
+    return decor
+

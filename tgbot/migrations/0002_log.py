@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tgbot', '0001_initial'),
+        ('tgbot', '0002_arcgis'),
     ]
 
     operations = [
