@@ -3,6 +3,7 @@ from functools import wraps
 from dtb.settings import ENABLE_DECORATOR_LOGGING
 from django.utils import timezone
 from tgbot.models import UserActionLog
+from tgbot.utils import extract_user_data_from_update
 
 
 def send_typing_action(func):
@@ -16,21 +17,10 @@ def send_typing_action(func):
     return command_func
 
 
-def get_userid_from_update(update):
-    if update.callback_query:
-        user_id = update.callback_query.from_user.id
-    elif update.inline_query:
-        user_id = update.inline_query.from_user.id
-    else:
-        user_id = update.message.from_user.id
-
-    return user_id
-
-
 def handler_logging(action_name=None):
     def decor(func):
         def handler(update, context, *args, **kwargs):
-            user_id = get_userid_from_update(update)
+            user_id = extract_user_data_from_update(update)['user_id']
             action = f"{func.__module__}.{func.__name__}" if not action_name else action_name
             UserActionLog.objects.create(user_id=user_id, action=action, created_at=timezone.now())
             return func(update, context, *args, **kwargs)
