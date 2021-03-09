@@ -47,3 +47,17 @@ class UserAdmin(admin.ModelAdmin):
         return render(
             request, "admin/broadcast_message.html", {'items': queryset,'form': form, 'title':u' '}
         )
+
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ['id', 'user_id', 'created_at']
+
+
+@admin.register(Arcgis)
+class ArcgisAdmin(admin.ModelAdmin):
+    list_display = ['location', 'city', 'country_code']
+
+
+@admin.register(UserActionLog)
+class UserActionLogAdmin(admin.ModelAdmin):
+    list_display = ['user', 'action', 'created_at']
