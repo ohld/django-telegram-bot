@@ -2,8 +2,10 @@ import telegram
 import datetime
 
 from tgbot.handlers.keyboard_utils import make_keyboard_for_start_command
+from tgbot.handlers.static_text import start_created, start_not_created
 from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
+from django.utils import timezone
 
 
 # @send_typing_action
@@ -12,9 +14,9 @@ def start(update, context):
     u, created = User.get_user_and_created(update, context)
 
     if created:
-        text = f"sup {u.first_name}!"
+        text = start_created.format(first_name=u.first_name)
     else:
-        text = f"welcome back, {u.first_name}!"
+        text = start_not_created.format(first_name=u.first_name)
 
 
     update.message.reply_text(text=text,
@@ -29,7 +31,7 @@ def stats(update, context):
 
     text = f"""
 *Users*: {User.objects.count()}
-*24h active*: {User.objects.filter(updated_at__gte=datetime.datetime.now() - datetime.timedelta(hours=24)).count()}
+*24h active*: {User.objects.filter(updated_at__gte=timezone.now() - datetime.timedelta(hours=24)).count()}
     """
 
     return update.message.reply_text(
