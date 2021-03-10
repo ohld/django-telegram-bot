@@ -1,14 +1,18 @@
 import telegram
 import datetime
 
-from tgbot.handlers.keyboard_utils import make_keyboard_for_start_command
-from tgbot.handlers.static_text import start_created, start_not_created
+from tgbot.handlers.keyboard_utils import make_keyboard_for_start_command, keyboard_confirm_decline_broadcasting
+from tgbot.handlers.static_text import start_created, start_not_created, broadcast_no_access, broadcast_header, \
+    broadcast_command
 from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
 from django.utils import timezone
 
 
 # @send_typing_action
+from tgbot.utils import extract_user_data_from_update
+
+
 @handler_logging()
 def start(update, context):
     u, created = User.get_user_and_created(update, context)
@@ -39,4 +43,23 @@ def stats(update, context):
         parse_mode=telegram.ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
-    
+
+
+def broadcast_command_with_message(update, context):
+    u = User.get_user(update, context)
+    user_id = extract_user_data_from_update(update)['user_id']
+
+    if not u.is_admin:
+        text = broadcast_no_access
+        markup = None
+
+    else:
+        text = f"{update.message.text.replace(f'{broadcast_command} ', '')}"
+        markup = keyboard_confirm_decline_broadcasting()
+
+    context.bot.send_message(
+        text=text,
+        chat_id=user_id,
+        parse_mode=telegram.ParseMode.MARKDOWN,
+        reply_markup=markup
+    )

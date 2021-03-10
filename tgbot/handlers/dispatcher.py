@@ -15,8 +15,10 @@ from celery.decorators import task  # event processing in async mode
 from dtb.settings import TELEGRAM_TOKEN
 
 from tgbot.handlers import admin, commands, files, location
-from tgbot.handlers.handlers import secret_level
-from tgbot.handlers.manage_data import SECRET_LEVEL_BUTTON
+from tgbot.handlers.commands import broadcast_command_with_message
+from tgbot.handlers.handlers import secret_level, broadcast_decision_handler
+from tgbot.handlers.manage_data import SECRET_LEVEL_BUTTON, CONFIRM_DECLINE_BROADCAST
+from tgbot.handlers.static_text import broadcast_command
 
 
 def setup_dispatcher(dp):
@@ -40,6 +42,9 @@ def setup_dispatcher(dp):
 
 
     dp.add_handler(CallbackQueryHandler(secret_level, pattern=f"^{SECRET_LEVEL_BUTTON}"))
+
+    dp.add_handler(MessageHandler(Filters.regex(rf'^{broadcast_command} .*'), broadcast_command_with_message))
+    dp.add_handler(CallbackQueryHandler(broadcast_decision_handler, pattern=f"^{CONFIRM_DECLINE_BROADCAST}"))
     # Handlers examples
     # dp.add_handler(MessageHandler(Filters.text, start_handler))
     # dp.add_handler(MessageHandler(
