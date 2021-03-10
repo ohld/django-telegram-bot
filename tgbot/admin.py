@@ -6,6 +6,7 @@ from django.shortcuts import render
 from dtb.settings import DEBUG
 
 from tgbot.models import User, Location, Arcgis
+from tgbot.models import User, UserActionLog
 from tgbot.forms import BroadcastForm
 
 from tgbot.tasks import broadcast_message
@@ -47,7 +48,6 @@ class UserAdmin(admin.ModelAdmin):
             request, "admin/broadcast_message.html", {'items': queryset,'form': form, 'title':u' '}
         )
 
-
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = ['id', 'user_id', 'created_at']
@@ -56,3 +56,8 @@ class LocationAdmin(admin.ModelAdmin):
 @admin.register(Arcgis)
 class ArcgisAdmin(admin.ModelAdmin):
     list_display = ['location', 'city', 'country_code']
+
+
+@admin.register(UserActionLog)
+class UserActionLogAdmin(admin.ModelAdmin):
+    list_display = ['user', 'action', 'created_at']
