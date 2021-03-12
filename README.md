@@ -1,7 +1,7 @@
 # django-telegram-bot
 Sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub Actions template. Production-realy Telegram bot with database, admin panel and a bunch of useful built-in methods.
 
-Check the example bot that uses the code from Main branch: t.me/djangotelegrambot.
+### Check the example bot that uses the code from Main branch: [t.me/djangotelegrambot](https://t.me/djangotelegrambot)
 
 ## Features
 
