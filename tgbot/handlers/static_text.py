@@ -19,3 +19,6 @@ confirm_broadcast = "Confirm✅"
 decline_broadcast = "Decline❌"
 message_is_sent = "Message is sent✅\n\n"
 declined_message_broadcasting = "Message broadcasting is declined❌\n\n"
+
+error_with_markdown = "Can't parse your text in Markdown style."
+specify_word_with_error = " You have mistake with the word "

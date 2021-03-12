@@ -1,9 +1,10 @@
 import telegram
 import datetime
+import re
 
 from tgbot.handlers.keyboard_utils import make_keyboard_for_start_command, keyboard_confirm_decline_broadcasting
 from tgbot.handlers.static_text import start_created, start_not_created, broadcast_no_access, broadcast_header, \
-    broadcast_command
+    broadcast_command, error_with_markdown, specify_word_with_error
 from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
 from django.utils import timezone
@@ -57,9 +58,19 @@ def broadcast_command_with_message(update, context):
         text = f"{update.message.text.replace(f'{broadcast_command} ', '')}"
         markup = keyboard_confirm_decline_broadcasting()
 
-    context.bot.send_message(
-        text=text,
-        chat_id=user_id,
-        parse_mode=telegram.ParseMode.MARKDOWN,
-        reply_markup=markup
-    )
+    try:
+        context.bot.send_message(
+            text=text,
+            chat_id=user_id,
+            parse_mode=telegram.ParseMode.MARKDOWN,
+            reply_markup=markup
+        )
+    except telegram.error.BadRequest as e:
+        place_where_mistake_begins = re.findall(r"offset (\d{1,})$", str(e))
+        text_error = error_with_markdown
+        if len(place_where_mistake_begins):
+            text_error += f"{specify_word_with_error}'{text[int(place_where_mistake_begins[0]):].split(' ')[0]}'"
+        context.bot.send_message(
+            text=text_error,
+            chat_id=user_id
+        )
