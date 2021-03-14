@@ -1,13 +1,15 @@
 import random
+import telegram
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from dtb.settings import DEBUG
 
-from tgbot.models import User, Location, Arcgis
+from tgbot.models import Location, Arcgis
 from tgbot.models import User, UserActionLog
 from tgbot.forms import BroadcastForm
+from tgbot.handlers import utils
 
 from tgbot.tasks import broadcast_message
 
@@ -33,7 +35,7 @@ class UserAdmin(admin.ModelAdmin):
             # TODO: for all platforms?
             if len(queryset) <= 3 or DEBUG:  # for test / debug purposes - run in same thread
                 for u in queryset:
-                    u.send_message(broadcast_message_text)
+                    utils.send_message(user_id=u.id, text=broadcast_message_text, parse_mode=telegram.ParseMode.MARKDOWN)
                 self.message_user(request, "Just broadcasted to %d users" % len(queryset))
             else:
                 user_ids = list(set(u.user_id for u in queryset))

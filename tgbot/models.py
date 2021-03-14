@@ -1,8 +1,6 @@
-import telegram
 import requests
 
 from django.db import models
-from dtb.settings import TELEGRAM_TOKEN
 from tgbot import utils
 
 
@@ -56,38 +54,6 @@ class User(models.Model):
 
     def invited_users(self):  # --> User queryset 
         return User.objects.filter(deep_link=str(self.user_id), created_at__gt=self.created_at)
-
-    def send_message(
-        self,
-        text,
-        parse_mode=telegram.ParseMode.MARKDOWN,
-        reply_markup=None,
-        reply_to_message_id=None,
-        disable_web_page_preview=None,
-    ):  # TODO: refactor?
-        try:
-            bot = telegram.Bot(TELEGRAM_TOKEN)
-            m = bot.send_message(
-                chat_id=self.user_id,
-                text=text,
-                parse_mode=parse_mode,
-                reply_markup=reply_markup,
-                reply_to_message_id=reply_to_message_id,
-                disable_web_page_preview=disable_web_page_preview,
-            )
-        except telegram.error.Unauthorized:
-            print(f"Can't send message to {self}. Reason: Bot was stopped.")
-            self.is_blocked_bot = True
-            success = False
-        except Exception as e:
-            print(f"Can't send message to {self}. Reason: {e}")
-            success = False
-        else:
-            success = True
-            self.is_blocked_bot = False
-        finally:
-            self.save()
-        return success
 
 
 class Location(models.Model):
