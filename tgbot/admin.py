@@ -9,7 +9,7 @@ from dtb.settings import DEBUG
 from tgbot.models import Location, Arcgis
 from tgbot.models import User, UserActionLog
 from tgbot.forms import BroadcastForm
-from tgbot.handlers.utils import send_message
+from tgbot.handlers import utils
 
 from tgbot.tasks import broadcast_message
 
@@ -35,7 +35,7 @@ class UserAdmin(admin.ModelAdmin):
             # TODO: for all platforms?
             if len(queryset) <= 3 or DEBUG:  # for test / debug purposes - run in same thread
                 for u in queryset:
-                    send_message(user_id=u.id, text=broadcast_message_text, parse_mode=telegram.ParseMode.MARKDOWN)
+                    utils.send_message(user_id=u.id, text=broadcast_message_text, parse_mode=telegram.ParseMode.MARKDOWN)
                 self.message_user(request, "Just broadcasted to %d users" % len(queryset))
             else:
                 user_ids = list(set(u.user_id for u in queryset))

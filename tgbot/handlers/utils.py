@@ -32,9 +32,13 @@ def send_message(user_id, text, parse_mode=None, reply_markup=None, reply_to_mes
                  disable_web_page_preview=None, entities=None, bot=telegram.Bot(TELEGRAM_TOKEN)):  # TODO: refactor?
     try:
         if len(entities):
-            entities = [MessageEntity(type=entity['type'],
-                                      offset=entity['offset'],
-                                      length=entity['length']) for entity in entities]
+            entities = [
+                MessageEntity(type=entity['type'],
+                              offset=entity['offset'],
+                              length=entity['length']
+                )
+                for entity in entities
+            ]
 
         m = bot.send_message(
             chat_id=user_id,
