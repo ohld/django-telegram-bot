@@ -5,6 +5,7 @@ from tgbot.models import User, Location
 
 
 def ask_for_location(update, context):
+    """ Entered /ask_location command"""
     u = User.get_user(update, context)
 
     context.bot.send_message(

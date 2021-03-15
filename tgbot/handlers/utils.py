@@ -18,6 +18,7 @@ def send_typing_action(func):
 
 
 def handler_logging(action_name=None):
+    """ Turn on this decorator via ENABLE_DECORATOR_LOGGING variable in dtb.settings """
     def decor(func):
         def handler(update, context, *args, **kwargs):
             user_id = extract_user_data_from_update(update)['user_id']
@@ -29,7 +30,7 @@ def handler_logging(action_name=None):
 
 
 def send_message(user_id, text, parse_mode=None, reply_markup=None, reply_to_message_id=None,
-                 disable_web_page_preview=None, entities=None, bot=telegram.Bot(TELEGRAM_TOKEN)):  # TODO: refactor?
+                 disable_web_page_preview=None, entities=None, bot=telegram.Bot(TELEGRAM_TOKEN)):
     try:
         if len(entities):
             entities = [

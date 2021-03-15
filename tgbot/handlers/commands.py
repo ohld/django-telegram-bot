@@ -8,19 +8,18 @@ from tgbot.models import User
 from django.utils import timezone
 from tgbot.handlers import static_text
 
-# @send_typing_action
 from tgbot.utils import extract_user_data_from_update
 
 
 @handler_logging()
 def start(update, context):
+    """ Handle /start command """
     u, created = User.get_user_and_created(update, context)
 
     if created:
         text = static_text.start_created.format(first_name=u.first_name)
     else:
         text = static_text.start_not_created.format(first_name=u.first_name)
-
 
     update.message.reply_text(text=text,
                               reply_markup=make_keyboard_for_start_command())
@@ -45,6 +44,7 @@ def stats(update, context):
 
 
 def broadcast_command_with_message(update, context):
+    """ Type /broadcast some_text. Then check your message in Markdown format and broadcast to users."""
     u = User.get_user(update, context)
     user_id = extract_user_data_from_update(update)['user_id']
 

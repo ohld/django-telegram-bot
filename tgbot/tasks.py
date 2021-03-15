@@ -15,6 +15,7 @@ logger = get_task_logger(__name__)
 
 @app.task(ignore_result=True)
 def broadcast_message(user_ids, message, entities=None, sleep_between=0.2, parse_mode=None) :
+    """ It's used to broadcast message to big amount of users """
     logger.info(f"Going to send message: '{message}' to {len(user_ids)} users")
 
     for user_id in user_ids:

@@ -22,3 +22,6 @@ declined_message_broadcasting = "Message broadcasting is declined❌\n\n"
 
 error_with_markdown = "Can't parse your text in Markdown style."
 specify_word_with_error = " You have mistake with the word "
+
+secret_admin_commands = "⚠️ Secret Admin commands\n" \
+                        "/stats - bot stats"

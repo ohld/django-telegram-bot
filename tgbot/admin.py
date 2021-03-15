@@ -29,6 +29,7 @@ class UserAdmin(admin.ModelAdmin):
         return obj.invited_users().count()
 
     def broadcast(self, request, queryset):
+        """ Select users via check mark in django-admin panel, then select "Broadcast" to send message"""
         if 'apply' in request.POST:
             broadcast_message_text = request.POST["broadcast_text"]
 

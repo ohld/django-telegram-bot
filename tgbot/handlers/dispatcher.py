@@ -45,17 +45,6 @@ def setup_dispatcher(dp):
 
     dp.add_handler(MessageHandler(Filters.regex(rf'^{broadcast_command} .*'), broadcast_command_with_message))
     dp.add_handler(CallbackQueryHandler(broadcast_decision_handler, pattern=f"^{CONFIRM_DECLINE_BROADCAST}"))
-    # Handlers examples
-    # dp.add_handler(MessageHandler(Filters.text, start_handler))
-    # dp.add_handler(MessageHandler(
-    #     Filters.document, file_handler,
-    # ))
-    # dp.add_handler(CallbackQueryHandler(reaction_handler, pattern="^r\d+_\d+"))
-    # dp.add_handler(MessageHandler(
-    #     Filters.chat(chat_id=int(TELEGRAM_FILESTORAGE_ID)),
-    #     # & Filters.forwarded & (Filters.photo | Filters.video | Filters.animation),
-    #     save_forwarded_meme,
-    # ))
 
     return dp
 
