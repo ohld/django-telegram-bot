@@ -1,14 +1,10 @@
 import json
 import logging
 from django.views import View
-from django.shortcuts import redirect
 from django.http import JsonResponse
 
 from dtb.settings import DEBUG
 
-from tgbot import tasks
-from tgbot.models import User
-from tgbot.handlers.logs import send_text
 from tgbot.handlers.dispatcher import process_telegram_event, TELEGRAM_BOT_USERNAME
 
 logger = logging.getLogger(__name__)

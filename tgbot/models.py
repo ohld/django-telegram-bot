@@ -160,6 +160,7 @@ class Arcgis(models.Model):
         )
         return r.json()
 
+
 class UserActionLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     action = models.CharField(max_length=128)
