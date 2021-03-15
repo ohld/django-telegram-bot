@@ -11,7 +11,7 @@ from django.utils import timezone
 
 
 @handler_logging()
-def secret_level(update, context):
+def secret_level(update, context): #callback_data: SECRET_LEVEL_BUTTON variable from manage_data.py
     """ Pressed 'secret_level_button_text' after /start command"""
     user_id = extract_user_data_from_update(update)['user_id']
     text = unlock_secret_room.format(
@@ -27,8 +27,8 @@ def secret_level(update, context):
     )
 
 
-def broadcast_decision_handler(update, context):
-    """ Entered /broadcast 'some_text'.
+def broadcast_decision_handler(update, context): #callback_data: CONFIRM_DECLINE_BROADCAST variable from manage_data.py
+    """ Entered /broadcast <some_text>.
         Shows text in Markdown style with two buttons:
         Confirm and Decline
     """

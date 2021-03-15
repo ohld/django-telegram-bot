@@ -12,8 +12,7 @@ from tgbot.utils import extract_user_data_from_update
 
 
 @handler_logging()
-def start(update, context):
-    """ Handle /start command """
+def command_start(update, context):
     u, created = User.get_user_and_created(update, context)
 
     if created:
@@ -44,7 +43,7 @@ def stats(update, context):
 
 
 def broadcast_command_with_message(update, context):
-    """ Type /broadcast some_text. Then check your message in Markdown format and broadcast to users."""
+    """ Type /broadcast <some_text>. Then check your message in Markdown format and broadcast to users."""
     u = User.get_user(update, context)
     user_id = extract_user_data_from_update(update)['user_id']
 

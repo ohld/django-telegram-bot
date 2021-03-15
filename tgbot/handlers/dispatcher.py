@@ -26,7 +26,7 @@ def setup_dispatcher(dp):
     Adding handlers for events from Telegram
     """
 
-    dp.add_handler(CommandHandler("start", commands.start))
+    dp.add_handler(CommandHandler("start", commands.command_start))
 
     # admin commands
     dp.add_handler(CommandHandler("admin", admin.admin))
@@ -45,6 +45,18 @@ def setup_dispatcher(dp):
 
     dp.add_handler(MessageHandler(Filters.regex(rf'^{broadcast_command} .*'), broadcast_command_with_message))
     dp.add_handler(CallbackQueryHandler(broadcast_decision_handler, pattern=f"^{CONFIRM_DECLINE_BROADCAST}"))
+
+    #EXAMPLES FOR HANDLERS
+    # dp.add_handler(MessageHandler(Filters.text, <function_handler>))
+    # dp.add_handler(MessageHandler(
+    #     Filters.document, <function_handler>,
+    # ))
+    # dp.add_handler(CallbackQueryHandler(<function_handler>, pattern="^r\d+_\d+"))
+    # dp.add_handler(MessageHandler(
+    #     Filters.chat(chat_id=int(TELEGRAM_FILESTORAGE_ID)),
+    #     # & Filters.forwarded & (Filters.photo | Filters.video | Filters.animation),
+    #     <function_handler>,
+    # ))
 
     return dp
 

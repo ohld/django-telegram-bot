@@ -5,7 +5,7 @@ from django.utils.timezone import now
 import telegram
 
 # Local imports
-from tgbot.handlers.static_text import secret_admin_commands
+from tgbot.handlers import static_text
 from tgbot.models import User
 
 def admin(update, context):
@@ -14,7 +14,7 @@ def admin(update, context):
     if not u.is_admin:
         return
 
-    return update.message.reply_text(secret_admin_commands)
+    return update.message.reply_text(static_text.secret_admin_commands)
     
 
 def stats(update, context):
