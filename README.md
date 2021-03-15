@@ -17,6 +17,8 @@ Built-in Telegram bot methods:
 * Log user location when received and reverse geocode it to get country, city, etc.
 * Log users clicks to understand their behaviour
 
+Check out our [Wiki](https://github.com/ohld/django-telegram-bot/wiki) for more info.
+
 # How to run
 
 ## Quickstart: Pooling & SQLite
@@ -36,12 +38,17 @@ DATABASE_URL=sqlite:///db.sqlite3
 TELEGRAM_TOKEN=<ENTER YOUR TELEGRAM TOKEN HERE>
 ```
 
+Run migrations to setup SQLite database:
+``` bash
+python manage.py migrate
+```
+
 Run bot in pooling mode:
 ``` bash
 python run_pooling.py 
 ```
 
-If you want to open Django admin panel:
+If you want to open Django admin panel which will be located on http://localhost:8000/tgadmin/:
 ``` bash
 python manage.py runserver
 ```
