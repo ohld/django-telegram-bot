@@ -13,6 +13,7 @@ from tgbot.handlers import utils
 
 from tgbot.tasks import broadcast_message
 
+
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
     list_display = [
@@ -50,6 +51,7 @@ class UserAdmin(admin.ModelAdmin):
         return render(
             request, "admin/broadcast_message.html", {'items': queryset,'form': form, 'title':u' '}
         )
+
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
