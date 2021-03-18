@@ -14,7 +14,7 @@ Sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub A
 Built-in Telegram bot methods:
 * /broadcast - send message to all users (admin command)
 * /stats - show basic bot stats 
-* Log user location when received and reverse geocode it to get country, city, etc.
+* /ask_for_location - log user location when received and reverse geocode it to get country, city, etc.
 * Log users clicks to understand their behaviour
 
 Check out our [Wiki](https://github.com/ohld/django-telegram-bot/wiki) for more info.
