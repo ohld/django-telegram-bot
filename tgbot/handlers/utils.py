@@ -30,9 +30,10 @@ def handler_logging(action_name=None):
 
 
 def send_message(user_id, text, parse_mode=None, reply_markup=None, reply_to_message_id=None,
-                 disable_web_page_preview=None, entities=None, bot=telegram.Bot(TELEGRAM_TOKEN)):
+                 disable_web_page_preview=None, entities=None, tg_token=TELEGRAM_TOKEN):
+    bot = telegram.Bot(tg_token)
     try:
-        if len(entities):
+        if entities:
             entities = [
                 MessageEntity(type=entity['type'],
                               offset=entity['offset'],
