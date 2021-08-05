@@ -37,7 +37,7 @@ class UserAdmin(admin.ModelAdmin):
             # TODO: for all platforms?
             if len(queryset) <= 3 or DEBUG:  # for test / debug purposes - run in same thread
                 for u in queryset:
-                    utils.send_message(user_id=u.id, text=broadcast_message_text, parse_mode=telegram.ParseMode.MARKDOWN)
+                    utils.send_message(user_id=u.user_id, text=broadcast_message_text, parse_mode=telegram.ParseMode.MARKDOWN)
                 self.message_user(request, "Just broadcasted to %d users" % len(queryset))
             else:
                 user_ids = list(set(u.user_id for u in queryset))
