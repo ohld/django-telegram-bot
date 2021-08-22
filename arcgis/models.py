@@ -41,8 +41,7 @@ class Arcgis(CreateTracker):
 
     @classmethod
     def from_json(cls, j, location_id):
-        a = j.get("address")
-        l = j.get("location")
+        a, l = j.get("address"), j.get("location")
 
         if "address" not in j or "location" not in j:
             return

@@ -5,7 +5,7 @@ from django.http import JsonResponse
 
 from dtb.settings import DEBUG
 
-from tgbot.dispatcher import process_telegram_event, TELEGRAM_BOT_USERNAME
+from tgbot.handlers.dispatcher import process_telegram_event, TELEGRAM_BOT_USERNAME
 
 logger = logging.getLogger(__name__)
 

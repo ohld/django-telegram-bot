@@ -1,6 +1,7 @@
 from arcgis.tasks import save_data_from_arcgis
 from django.db import models
-from tgbot import utils
+
+from tgbot.handlers.utils.info import extract_user_data_from_update
 from utils.models import CreateUpdateTracker, nb, CreateTracker
 
 
@@ -24,7 +25,7 @@ class User(CreateUpdateTracker):
     @classmethod
     def get_user_and_created(cls, update, context):
         """ python-telegram-bot's Update, Context --> User instance """
-        data = utils.extract_user_data_from_update(update)
+        data = extract_user_data_from_update(update)
         u, created = cls.objects.update_or_create(user_id=data["user_id"], defaults=data)
 
         if created:

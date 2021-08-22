@@ -1,19 +1,8 @@
 import telegram
-from functools import wraps
-from dtb.settings import TELEGRAM_TOKEN
-from tgbot.models import User
 from telegram import MessageEntity
 
-
-def send_typing_action(func):
-    """Sends typing action while processing func command."""
-
-    @wraps(func)
-    def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
-        return func(update, context,  *args, **kwargs)
-
-    return command_func
+from dtb.settings import TELEGRAM_TOKEN
+from tgbot.models import User
 
 
 def send_message(user_id, text, parse_mode=None, reply_markup=None, reply_to_message_id=None,
