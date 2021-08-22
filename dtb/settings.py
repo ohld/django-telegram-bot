@@ -144,10 +144,6 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
 
-# -----> LOGGING
-ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
-
-
 # -----> SENTRY
 # import sentry_sdk
 # from sentry_sdk.integrations.django import DjangoIntegration

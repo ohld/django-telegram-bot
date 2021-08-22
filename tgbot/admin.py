@@ -6,8 +6,9 @@ from django.shortcuts import render
 
 from dtb.settings import DEBUG
 
-from tgbot.models import Location, Arcgis
-from tgbot.models import User, UserActionLog
+from tgbot.models import Location
+from arcgis.models import Arcgis
+from tgbot.models import User
 from tgbot.forms import BroadcastForm
 from tgbot.handlers import utils
 
@@ -61,8 +62,3 @@ class LocationAdmin(admin.ModelAdmin):
 @admin.register(Arcgis)
 class ArcgisAdmin(admin.ModelAdmin):
     list_display = ['location', 'city', 'country_code']
-
-
-@admin.register(UserActionLog)
-class UserActionLogAdmin(admin.ModelAdmin):
-    list_display = ['user', 'action', 'created_at']

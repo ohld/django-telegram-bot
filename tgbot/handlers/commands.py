@@ -3,7 +3,6 @@ import datetime
 import re
 
 from tgbot.handlers.keyboard_utils import make_keyboard_for_start_command, keyboard_confirm_decline_broadcasting
-from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
 from django.utils import timezone
 from tgbot.handlers import static_text
@@ -11,7 +10,6 @@ from tgbot.handlers import static_text
 from tgbot.utils import extract_user_data_from_update
 
 
-@handler_logging()
 def command_start(update, context):
     u, created = User.get_user_and_created(update, context)
 

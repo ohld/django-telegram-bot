@@ -7,9 +7,6 @@ import time
 from dtb.celery import app
 from celery.utils.log import get_task_logger
 from tgbot.handlers.utils import send_message
-from tgbot.models import (
-    Arcgis
-)
 
 logger = get_task_logger(__name__)
 
@@ -29,6 +26,3 @@ def broadcast_message(user_ids, message, entities=None, sleep_between=0.4, parse
     logger.info("Broadcast finished!")
 
 
-@app.task(ignore_result=True)
-def save_data_from_arcgis(latitude, longitude, location_id):
-    Arcgis.from_json(Arcgis.reverse_geocode(latitude, longitude), location_id=location_id)

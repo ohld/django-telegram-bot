@@ -3,14 +3,12 @@ import telegram
 
 from tgbot.handlers.manage_data import CONFIRM_DECLINE_BROADCAST, CONFIRM_BROADCAST
 from tgbot.handlers.static_text import unlock_secret_room, message_is_sent
-from tgbot.handlers.utils import handler_logging
 from tgbot.models import User
 from tgbot.tasks import broadcast_message
 from tgbot.utils import extract_user_data_from_update
 from django.utils import timezone
 
 
-@handler_logging()
 def secret_level(update, context): #callback_data: SECRET_LEVEL_BUTTON variable from manage_data.py
     """ Pressed 'secret_level_button_text' after /start command"""
     user_id = extract_user_data_from_update(update)['user_id']
