@@ -1,4 +1,3 @@
-from arcgis.tasks import save_data_from_arcgis
 from django.db import models
 
 from tgbot.handlers.utils.info import extract_user_data_from_update
@@ -65,4 +64,5 @@ class Location(CreateTracker):
     def save(self, *args, **kwargs):
         super(Location, self).save(*args, **kwargs)
         # Parse location with arcgis
+        from arcgis.tasks import save_data_from_arcgis
         save_data_from_arcgis.delay(latitude=self.latitude, longitude=self.longitude, location_id=self.pk)

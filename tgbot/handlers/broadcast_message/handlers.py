@@ -6,9 +6,9 @@ from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCA
 from tgbot.handlers.broadcast_message.keyboard_utils import keyboard_confirm_decline_broadcasting
 from tgbot.handlers.broadcast_message import static_text
 from tgbot.handlers.broadcast_message.utils import send_message
+from tgbot.handlers.utils.info import extract_user_data_from_update
 from tgbot.models import User
 from tgbot.tasks import broadcast_message
-from tgbot.handlers.utils import extract_user_data_from_update
 
 
 def broadcast_command_with_message(update, context):

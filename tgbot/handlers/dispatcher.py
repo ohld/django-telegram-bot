@@ -15,13 +15,12 @@ from tgbot.handlers.admin import handlers as admin_handlers
 from tgbot.handlers.location import handlers as location_handlers
 from tgbot.handlers.onboarding import handlers as onboarding_handlers
 from tgbot.handlers.broadcast_message import handlers as broadcast_handlers
-from tgbot.handlers.secret_level import handlers as secret_level_handlers
 
 from dtb.settings import TELEGRAM_TOKEN
 
 from tgbot.handlers.utils import files
 
-from tgbot.handlers.secret_level.manage_data import SECRET_LEVEL_BUTTON
+from tgbot.handlers.onboarding.manage_data import SECRET_LEVEL_BUTTON
 from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCAST
 from tgbot.handlers.broadcast_message.static_text import broadcast_command
 
@@ -41,7 +40,7 @@ def setup_dispatcher(dp):
     dp.add_handler(MessageHandler(Filters.location, location_handlers.location_handler))
 
     # secret level
-    dp.add_handler(CallbackQueryHandler(secret_level_handlers.secret_level, pattern=f"^{SECRET_LEVEL_BUTTON}"))
+    dp.add_handler(CallbackQueryHandler(onboarding_handlers.secret_level, pattern=f"^{SECRET_LEVEL_BUTTON}"))
 
     # broadcast message
     dp.add_handler(
