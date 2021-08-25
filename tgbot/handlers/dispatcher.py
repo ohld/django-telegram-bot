@@ -6,47 +6,56 @@ import telegram
 from telegram.ext import (
     Updater, Dispatcher, Filters,
     CommandHandler, MessageHandler,
-    InlineQueryHandler, CallbackQueryHandler,
-    ChosenInlineResultHandler,
+    CallbackQueryHandler,
 )
 
-from celery.decorators import task  # event processing in async mode
+from dtb.celery import app  # event processing in async mode
+
+from tgbot.handlers.admin import handlers as admin_handlers
+from tgbot.handlers.location import handlers as location_handlers
+from tgbot.handlers.onboarding import handlers as onboarding_handlers
+from tgbot.handlers.broadcast_message import handlers as broadcast_handlers
 
 from dtb.settings import TELEGRAM_TOKEN
 
-from tgbot.handlers import admin, commands, files, location
-from tgbot.handlers.commands import broadcast_command_with_message
-from tgbot.handlers.handlers import secret_level, broadcast_decision_handler
-from tgbot.handlers.manage_data import SECRET_LEVEL_BUTTON, CONFIRM_DECLINE_BROADCAST
-from tgbot.handlers.static_text import broadcast_command
+from tgbot.handlers.utils import files
+
+from tgbot.handlers.onboarding.manage_data import SECRET_LEVEL_BUTTON
+from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCAST
+from tgbot.handlers.broadcast_message.static_text import broadcast_command
 
 
 def setup_dispatcher(dp):
     """
     Adding handlers for events from Telegram
     """
-
-    dp.add_handler(CommandHandler("start", commands.command_start))
+    dp.add_handler(CommandHandler("start", onboarding_handlers.command_start))
 
     # admin commands
-    dp.add_handler(CommandHandler("admin", admin.admin))
-    dp.add_handler(CommandHandler("stats", admin.stats))
+    dp.add_handler(CommandHandler("admin", admin_handlers.admin))
+    dp.add_handler(CommandHandler("stats", admin_handlers.stats))
 
+    # location
+    dp.add_handler(CommandHandler("ask_location", location_handlers.ask_for_location))
+    dp.add_handler(MessageHandler(Filters.location, location_handlers.location_handler))
+
+    # secret level
+    dp.add_handler(CallbackQueryHandler(onboarding_handlers.secret_level, pattern=f"^{SECRET_LEVEL_BUTTON}"))
+
+    # broadcast message
+    dp.add_handler(
+        MessageHandler(Filters.regex(rf'^{broadcast_command} .*'), broadcast_handlers.broadcast_command_with_message)
+    )
+    dp.add_handler(
+        CallbackQueryHandler(broadcast_handlers.broadcast_decision_handler, pattern=f"^{CONFIRM_DECLINE_BROADCAST}")
+    )
+
+    # files
     dp.add_handler(MessageHandler(
         Filters.animation, files.show_file_id,
     ))
 
-    # location
-    dp.add_handler(CommandHandler("ask_location", location.ask_for_location))
-    dp.add_handler(MessageHandler(Filters.location, location.location_handler))
-
-
-    dp.add_handler(CallbackQueryHandler(secret_level, pattern=f"^{SECRET_LEVEL_BUTTON}"))
-
-    dp.add_handler(MessageHandler(Filters.regex(rf'^{broadcast_command} .*'), broadcast_command_with_message))
-    dp.add_handler(CallbackQueryHandler(broadcast_decision_handler, pattern=f"^{CONFIRM_DECLINE_BROADCAST}"))
-
-    #EXAMPLES FOR HANDLERS
+    # EXAMPLES FOR HANDLERS
     # dp.add_handler(MessageHandler(Filters.text, <function_handler>))
     # dp.add_handler(MessageHandler(
     #     Filters.document, <function_handler>,
@@ -76,7 +85,7 @@ def run_pooling():
     updater.idle()
 
 
-@task(ignore_result=True)
+@app.task(ignore_result=True)
 def process_telegram_event(update_json):
     update = telegram.Update.de_json(update_json, bot)
     dispatcher.process_update(update)

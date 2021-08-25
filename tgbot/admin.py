@@ -4,12 +4,12 @@ from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+
 from dtb.settings import DEBUG
 
-from tgbot.models import Location, Arcgis
-from tgbot.models import User, UserActionLog
+from tgbot.models import Location
+from tgbot.models import User
 from tgbot.forms import BroadcastForm
-from tgbot.handlers import utils
 
 from tgbot.tasks import broadcast_message
 
@@ -37,7 +37,11 @@ class UserAdmin(admin.ModelAdmin):
             # TODO: for all platforms?
             if len(queryset) <= 3 or DEBUG:  # for test / debug purposes - run in same thread
                 for u in queryset:
-                    utils.send_message(user_id=u.user_id, text=broadcast_message_text, parse_mode=telegram.ParseMode.MARKDOWN)
+                    broadcast_message.utils.send_message(
+                        user_id=u.user_id,
+                        text=broadcast_message_text,
+                        parse_mode=telegram.ParseMode.MARKDOWN
+                    )
                 self.message_user(request, "Just broadcasted to %d users" % len(queryset))
             else:
                 user_ids = list(set(u.user_id for u in queryset))
@@ -56,13 +60,3 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     list_display = ['id', 'user_id', 'created_at']
-
-
-@admin.register(Arcgis)
-class ArcgisAdmin(admin.ModelAdmin):
-    list_display = ['location', 'city', 'country_code']
-
-
-@admin.register(UserActionLog)
-class UserActionLogAdmin(admin.ModelAdmin):
-    list_display = ['user', 'action', 'created_at']

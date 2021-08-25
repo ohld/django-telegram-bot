@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # local apps
     'tgbot.apps.TgbotConfig',
+    'arcgis'
 ]
 
 MIDDLEWARE = [
@@ -142,10 +143,6 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'
 
 # -----> TELEGRAM
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-
-
-# -----> LOGGING
-ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
 
 
 # -----> SENTRY
