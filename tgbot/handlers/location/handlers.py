@@ -1,6 +1,5 @@
 import telegram
 
-import tgbot.handlers.broadcast_message.utils
 from tgbot.handlers.location.static_text import share_location, thanks_for_location
 from tgbot.handlers.location.keyboard_utils import send_location_keyboard
 from tgbot.models import User, Location
@@ -10,7 +9,7 @@ def ask_for_location(update, context):
     """ Entered /ask_location command"""
     u = User.get_user(update, context)
 
-    tgbot.handlers.broadcast_message.utils.send_message(
+    context.bot.send_message(
         chat_id=u.user_id,
         text=share_location,
         reply_markup=send_location_keyboard()

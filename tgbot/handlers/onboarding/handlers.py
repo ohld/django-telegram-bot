@@ -1,8 +1,7 @@
 import datetime
 
-import telegram
 from django.utils import timezone
-
+from telegram import ParseMode
 
 from tgbot.handlers.onboarding import static_text
 from tgbot.handlers.utils.info import extract_user_data_from_update
@@ -35,5 +34,5 @@ def secret_level(update, context):
         text=text,
         chat_id=user_id,
         message_id=update.callback_query.message.message_id,
-        parse_mode=telegram.ParseMode.MARKDOWN
+        parse_mode=ParseMode.MARKDOWN
     )

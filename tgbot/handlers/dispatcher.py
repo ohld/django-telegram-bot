@@ -1,8 +1,9 @@
 """
     Telegram event handlers
 """
+from typing import Dict
 
-import telegram
+from telegram import Bot, Update, BotCommand
 from telegram.ext import (
     Updater, Dispatcher, Filters,
     CommandHandler, MessageHandler,
@@ -77,7 +78,7 @@ def run_pooling():
     dp = updater.dispatcher
     dp = setup_dispatcher(dp)
 
-    bot_info = telegram.Bot(TELEGRAM_TOKEN).get_me()
+    bot_info = Bot(TELEGRAM_TOKEN).get_me()
     bot_link = f"https://t.me/" + bot_info["username"]
 
     print(f"Pooling of '{bot_link}' started")
@@ -85,13 +86,54 @@ def run_pooling():
     updater.idle()
 
 
+# Global variable - best way I found to init Telegram bot
+bot = Bot(TELEGRAM_TOKEN)
+
+
 @app.task(ignore_result=True)
 def process_telegram_event(update_json):
-    update = telegram.Update.de_json(update_json, bot)
+    update = Update.de_json(update_json, bot)
     dispatcher.process_update(update)
 
 
-# Global variable - best way I found to init Telegram bot
-bot = telegram.Bot(TELEGRAM_TOKEN)
+def set_up_commands(bot_instance: Bot):
+    langs_with_commands: Dict[str, Dict[str, str]] = {
+        'en': {
+            'start': 'Start django bot 🚀',
+            'stats': 'Statistics of bot 📊',
+            'admin': 'Show admin info ℹ️',
+            'ask_location': 'Send location 📍'
+        },
+        'es': {
+            'start': 'Iniciar el bot de django 🚀',
+            'stats': 'Estadísticas de bot 📊',
+            'admin': 'Mostrar información de administrador ℹ️',
+            'ask_location': 'Enviar ubicación 📍',
+        },
+        'fr': {
+            'start': 'Démarrer le bot Django 🚀',
+            'stats': 'Statistiques du bot 📊',
+            'admin': "Afficher les informations d'administrateur ℹ️",
+            'ask_location': 'Envoyer emplacement 📍'
+        },
+        'ru': {
+            'start': 'Запустить django бота 🚀',
+            'stats': 'Статистика бота 📊',
+            'admin': 'Показать информацию для админов ℹ️',
+            'ask_location': 'Отправить локацию 📍',
+        }
+    }
+
+    bot_instance.delete_my_commands()
+    for language_code in langs_with_commands:
+        bot_instance.set_my_commands(
+            language_code=language_code,
+            commands=[
+                BotCommand(command, description) for command, description in langs_with_commands[language_code].items()
+            ]
+        )
+
+
+set_up_commands(bot)
 dispatcher = setup_dispatcher(Dispatcher(bot, None, workers=0, use_context=True))
 TELEGRAM_BOT_USERNAME = bot.get_me()["username"]

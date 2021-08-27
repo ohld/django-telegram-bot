@@ -9,4 +9,4 @@ def send_location_keyboard():
     return ReplyKeyboardMarkup(
         [[KeyboardButton(text=SEND_LOCATION, request_location=True)]],
         resize_keyboard=True
-    ),
+    )
