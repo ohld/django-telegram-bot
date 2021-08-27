@@ -35,6 +35,7 @@ def setup_dispatcher(dp):
     # admin commands
     dp.add_handler(CommandHandler("admin", admin_handlers.admin))
     dp.add_handler(CommandHandler("stats", admin_handlers.stats))
+    dp.add_handler(CommandHandler('export_users', admin_handlers.export_users))
 
     # location
     dp.add_handler(CommandHandler("ask_location", location_handlers.ask_for_location))
@@ -102,25 +103,29 @@ def set_up_commands(bot_instance: Bot):
             'start': 'Start django bot 🚀',
             'stats': 'Statistics of bot 📊',
             'admin': 'Show admin info ℹ️',
-            'ask_location': 'Send location 📍'
+            'ask_location': 'Send location 📍',
+            'export_users': "Export users.csv 👥",
         },
         'es': {
             'start': 'Iniciar el bot de django 🚀',
             'stats': 'Estadísticas de bot 📊',
             'admin': 'Mostrar información de administrador ℹ️',
             'ask_location': 'Enviar ubicación 📍',
+            'export_users': "Exportar users.csv 👥",
         },
         'fr': {
             'start': 'Démarrer le bot Django 🚀',
             'stats': 'Statistiques du bot 📊',
             'admin': "Afficher les informations d'administrateur ℹ️",
-            'ask_location': 'Envoyer emplacement 📍'
+            'ask_location': 'Envoyer emplacement 📍',
+            "export_users": 'Exporter users.csv 👥',
         },
         'ru': {
             'start': 'Запустить django бота 🚀',
             'stats': 'Статистика бота 📊',
             'admin': 'Показать информацию для админов ℹ️',
             'ask_location': 'Отправить локацию 📍',
+            'export_users': "Экспорт users.csv 👥"
         }
     }
 
