@@ -30,6 +30,7 @@ def setup_dispatcher(dp):
     """
     Adding handlers for events from Telegram
     """
+    # onboarding
     dp.add_handler(CommandHandler("start", onboarding_handlers.command_start))
 
     # admin commands

@@ -10,6 +10,7 @@ from tgbot.handlers.broadcast_message.utils import send_message
 
 logger = get_task_logger(__name__)
 
+
 @app.task(ignore_result=True)
 def broadcast_message(user_ids, message, entities=None, sleep_between=0.4, parse_mode=None):
     """ It's used to broadcast message to big amount of users """
