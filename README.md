@@ -55,7 +55,7 @@ python manage.py runserver
 
 ## Run locally using docker-compose
 
-If you like docker-compose you can check [full instuctions in our Wiki](https://github.com/ohld/django-telegram-bot/wiki/Run-locally-using-Docker-compose).
+If you like docker-compose you can check [full instructions in our Wiki](https://github.com/ohld/django-telegram-bot/wiki/Run-locally-using-Docker-compose).
 
 ## Deploy to Production 
 
