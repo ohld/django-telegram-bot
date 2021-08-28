@@ -35,10 +35,11 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'django_celery_beat',
+    'debug_toolbar',
 
     # local apps
     'tgbot.apps.TgbotConfig',
-    'arcgis'
+    'arcgis',
 ]
 
 MIDDLEWARE = [
@@ -51,8 +52,15 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'django.middleware.common.CommonMiddleware',
+]
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
