@@ -4,12 +4,9 @@ from django.views import View
 from django.http import JsonResponse
 
 from dtb.settings import DEBUG
-
-from tgbot.handlers.dispatcher import process_telegram_event, TELEGRAM_BOT_USERNAME
+from tgbot.dispatcher import process_telegram_event
 
 logger = logging.getLogger(__name__)
-
-BOT_URL = f"https://t.me/{TELEGRAM_BOT_USERNAME}"
 
 
 def index(request):
@@ -22,12 +19,15 @@ class TelegramBotWebhookView(View):
     def post(self, request, *args, **kwargs):
         if DEBUG:
             process_telegram_event(json.loads(request.body))
-        else:  # use celery in production
+        else:  
+            # Process Telegram event in Celery worker (async)
+            # Don't forget to run it and & Redis (message broker for Celery)! 
+            # Read Procfile for details
             process_telegram_event.delay(json.loads(request.body))
 
-        # TODO: there is a great trick to send data in webhook response
-        # e.g. remove buttons
+        # TODO: there is a great trick to send action in webhook response
+        # e.g. remove buttons, typing event
         return JsonResponse({"ok": "POST request processed"})
     
     def get(self, request, *args, **kwargs):  # for debug
-        return JsonResponse({"ok": "Get request processed. But nothing done"})
+        return JsonResponse({"ok": "Get request received! But nothing done"})

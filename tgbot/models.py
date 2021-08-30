@@ -29,6 +29,7 @@ class User(CreateUpdateTracker):
         u, created = cls.objects.update_or_create(user_id=data["user_id"], defaults=data)
 
         if created:
+            # Save deep_link to User model
             if context is not None and context.args is not None and len(context.args) > 0:
                 payload = context.args[0]
                 if str(payload).strip() != str(data["user_id"]).strip():  # you can't invite yourself
