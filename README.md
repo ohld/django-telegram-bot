@@ -28,6 +28,16 @@ The fastest way to run the bot is to run it in pooling mode using SQLite databas
 ``` bash
 git clone https://github.com/ohld/django-telegram-bot
 cd django-telegram-bot
+```
+
+Create virtual environment (optional)
+``` bash
+python3 -m venv dtb_venv
+source dtb_venv/bin/activate
+```
+
+Install all requirements:
+```
 pip install -r requirements.txt
 ```
 
@@ -41,6 +51,11 @@ TELEGRAM_TOKEN=<ENTER YOUR TELEGRAM TOKEN HERE>
 Run migrations to setup SQLite database:
 ``` bash
 python manage.py migrate
+```
+
+Create superuser to get access to admin panel:
+``` bash
+python manage.py createsuperuser
 ```
 
 Run bot in pooling mode:
