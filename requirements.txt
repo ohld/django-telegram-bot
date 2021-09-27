@@ -6,6 +6,7 @@ python-dotenv
 django
 django-timezone-field 
 django-cors-headers
+django-debug-toolbar
 whitenoise
 
 # Django 3.0 async requirements
