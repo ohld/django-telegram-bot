@@ -10,12 +10,15 @@ Sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub A
 * Background jobs using [Celery](https://docs.celeryproject.org/en/stable/)
 * [Production-ready](https://github.com/ohld/django-telegram-bot/wiki/Production-Deployment-using-Dokku) deployment using [Dokku](https://dokku.com)
 * Telegram API usage in pooling or [webhook mode](https://core.telegram.org/bots/api#setwebhook)
+* Reverse geocode of user via [ArcGis](https://www.arcgis.com/)
+* Export all users in `.csv`
+* Native telegram [commands in menu](https://github.com/ohld/django-telegram-bot/blob/main/.github/imgs/bot_commands_example.jpg)
 
 Built-in Telegram bot methods:
-* /broadcast - send message to all users (admin command)
-* /stats - show basic bot stats 
-* /ask_for_location - log user location when received and reverse geocode it to get country, city, etc.
-* Log users clicks to understand their behaviour
+* /broadcast — send message to all users (admin command)
+* /export_users — bot sends you info about your users in .csv file (admin command)
+* /stats — show basic bot stats 
+* /ask_for_location — log user location when received and reverse geocode it to get country, city, etc.
 
 Check out our [Wiki](https://github.com/ohld/django-telegram-bot/wiki) for more info.
 
