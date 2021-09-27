@@ -1,8 +1,10 @@
 """
     Telegram event handlers
 """
+import sys
 from typing import Dict
 
+import telegram.error
 from telegram import Bot, Update, BotCommand
 from telegram.ext import (
     Updater, Dispatcher, Filters,
@@ -91,6 +93,11 @@ def run_pooling():
 
 # Global variable - best way I found to init Telegram bot
 bot = Bot(TELEGRAM_TOKEN)
+try:
+    TELEGRAM_BOT_USERNAME = bot.get_me()["username"]
+except telegram.error.Unauthorized:
+    print(f"ERROR: Invalid TELEGRAM_TOKEN.")
+    sys.exit(1)
 
 
 @app.task(ignore_result=True)
@@ -143,4 +150,3 @@ def set_up_commands(bot_instance: Bot):
 
 set_up_commands(bot)
 dispatcher = setup_dispatcher(Dispatcher(bot, None, workers=0, use_context=True))
-TELEGRAM_BOT_USERNAME = bot.get_me()["username"]
