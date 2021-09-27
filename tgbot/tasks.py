@@ -5,6 +5,8 @@
 import time
 from typing import Union, List, Optional, Dict
 
+import telegram
+
 from dtb.celery import app
 from celery.utils.log import get_task_logger
 from tgbot.handlers.broadcast_message.utils import _send_message
@@ -14,11 +16,11 @@ logger = get_task_logger(__name__)
 
 @app.task(ignore_result=True)
 def broadcast_message(
-        user_ids: List[Union[str, int]],
-        message: str,
-        entities: Optional[Dict] = None,
-        sleep_between: float = 0.4,
-        parse_mode=None
+    user_ids: List[Union[str, int]],
+    message: str,
+    entities: Optional[Dict] = None,
+    sleep_between: float = 0.4,
+    parse_mode=telegram.ParseMode.HTML,
 ) -> None:
     """ It's used to broadcast message to big amount of users """
     logger.info(f"Going to send message: '{message}' to {len(user_ids)} users")

@@ -31,13 +31,12 @@ class UserAdmin(admin.ModelAdmin):
         if 'apply' in request.POST:
             broadcast_message_text = request.POST["broadcast_text"]
 
-            # TODO: for all platforms?
             if DEBUG:  # for test / debug purposes - run in same thread
                 for user_id in user_ids:
                     _send_message(
                         user_id=user_id,
                         text=broadcast_message_text,
-                        parse_mode=ParseMode.MARKDOWN
+                        parse_mode=ParseMode.HTML
                     )
                 self.message_user(request, f"Just broadcasted to {len(queryset)} users")
             else:

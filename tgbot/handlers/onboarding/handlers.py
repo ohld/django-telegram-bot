@@ -34,5 +34,5 @@ def secret_level(update: Update, context) -> None:
         text=text,
         chat_id=user_id,
         message_id=update.callback_query.message.message_id,
-        parse_mode=ParseMode.MARKDOWN
+        parse_mode=ParseMode.HTML
     )

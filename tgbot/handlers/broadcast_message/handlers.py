@@ -3,49 +3,51 @@ import re
 import telegram
 from telegram import Update
 
-from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCAST, CONFIRM_BROADCAST
-from tgbot.handlers.broadcast_message.keyboard_utils import keyboard_confirm_decline_broadcasting
-from tgbot.handlers.broadcast_message import static_text
-from tgbot.handlers.broadcast_message.utils import _send_message
-from tgbot.handlers.utils.info import extract_user_data_from_update
+from .manage_data import CONFIRM_DECLINE_BROADCAST, CONFIRM_BROADCAST
+from .keyboard_utils import keyboard_confirm_decline_broadcasting
+from .static_text import broadcast_command, broadcast_wrong_format, broadcast_no_access, error_with_html, \
+    specify_word_with_error, message_is_sent
 from tgbot.models import User
 from tgbot.tasks import broadcast_message
 
 
 def broadcast_command_with_message(update: Update, context):
-    """ Type /broadcast <some_text>. Then check your message in Markdown format and broadcast to users."""
+    """ Type /broadcast <some_text>. Then check your message in HTML format and broadcast to users."""
     u = User.get_user(update, context)
-    user_id = extract_user_data_from_update(update)['user_id']
 
     if not u.is_admin:
-        text = static_text.broadcast_no_access
-        markup = None
+        update.message.reply_text(
+            text=broadcast_no_access,
+        )
     else:
-        text = f"{update.message.text.replace(f'{static_text.broadcast_command} ', '')}"
+        if update.message.text == broadcast_command:
+            # user typed only command without text for the message.
+            update.message.reply_text(
+                text=broadcast_wrong_format,
+                parse_mode=telegram.ParseMode.HTML,
+            )
+            return
+
+        text = f"{update.message.text.replace(f'{broadcast_command} ', '')}"
         markup = keyboard_confirm_decline_broadcasting()
 
-    try:
-        _send_message(
-            user_id=user_id,
-            text=text,
-            parse_mode=telegram.ParseMode.MARKDOWN,
-            reply_markup=markup
-        )
-    except telegram.error.BadRequest as e:
-        place_where_mistake_begins = re.findall(r"offset (\d{1,})$", str(e))
-        text_error = static_text.error_with_markdown
-        if len(place_where_mistake_begins):
-            text_error += f"{static_text.specify_word_with_error}'{text[int(place_where_mistake_begins[0]):].split(' ')[0]}'"
-        _send_message(
-            text=text_error,
-            user_id=user_id
-        )
+        try:
+            update.message.reply_text(
+                text=text,
+                parse_mode=telegram.ParseMode.HTML,
+                reply_markup=markup,
+            )
+        except telegram.error.BadRequest as e:
+            update.message.reply_text(
+                text=error_with_html.format(reason=e),
+                parse_mode=telegram.ParseMode.HTML,
+            )
 
 
 def broadcast_decision_handler(update: Update, context) -> None:
     # callback_data: CONFIRM_DECLINE_BROADCAST variable from manage_data.py
     """ Entered /broadcast <some_text>.
-        Shows text in Markdown style with two buttons:
+        Shows text in HTML style with two buttons:
         Confirm and Decline
     """
     broadcast_decision = update.callback_query.data[len(CONFIRM_DECLINE_BROADCAST):]
@@ -53,7 +55,7 @@ def broadcast_decision_handler(update: Update, context) -> None:
     entities, text = update.callback_query.message.entities, update.callback_query.message.text
 
     if broadcast_decision == CONFIRM_BROADCAST:
-        admin_text = f"{static_text.message_is_sent}"
+        admin_text = f"{message_is_sent}"
         user_ids = list(User.objects.all().values_list('user_id', flat=True))
         broadcast_message.delay(user_ids=user_ids, message=text, entities=entities_for_celery)
     else:

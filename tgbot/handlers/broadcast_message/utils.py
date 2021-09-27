@@ -10,7 +10,7 @@ from tgbot.models import User
 def _send_message(
     user_id: Union[str, int],
     text: str,
-    parse_mode: Optional[str] = None,
+    parse_mode: Optional[str] = telegram.ParseMode.HTML,
     reply_markup: Optional[Dict] = None,
     reply_to_message_id: Optional[int] = None,
     disable_web_page_preview: Optional[bool] = None,

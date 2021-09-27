@@ -13,7 +13,7 @@ from telegram.ext import (
 )
 
 from dtb.celery import app  # event processing in async mode
-from dtb.settings import TELEGRAM_TOKEN
+from dtb.settings import TELEGRAM_TOKEN, DEBUG
 
 from tgbot.handlers.utils import files
 from tgbot.handlers.admin import handlers as admin_handlers
@@ -46,7 +46,7 @@ def setup_dispatcher(dp):
 
     # broadcast message
     dp.add_handler(
-        MessageHandler(Filters.regex(rf'^{broadcast_command} .*'), broadcast_handlers.broadcast_command_with_message)
+        MessageHandler(Filters.regex(rf'^{broadcast_command}(/s)?.*'), broadcast_handlers.broadcast_command_with_message)
     )
     dp.add_handler(
         CallbackQueryHandler(broadcast_handlers.broadcast_decision_handler, pattern=f"^{CONFIRM_DECLINE_BROADCAST}")
@@ -152,5 +152,6 @@ def set_up_commands(bot_instance: Bot) -> None:
         )
 
 
-set_up_commands(bot)
-dispatcher = setup_dispatcher(Dispatcher(bot, None, workers=0, use_context=True))
+# set_up_commands(bot)
+n_workers = 0 if DEBUG else 4
+dispatcher = setup_dispatcher(Dispatcher(bot, update_queue=None, workers=n_workers, use_context=True))
