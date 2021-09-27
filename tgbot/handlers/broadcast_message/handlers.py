@@ -1,17 +1,18 @@
 import re
 
 import telegram
+from telegram import Update
 
 from tgbot.handlers.broadcast_message.manage_data import CONFIRM_DECLINE_BROADCAST, CONFIRM_BROADCAST
 from tgbot.handlers.broadcast_message.keyboard_utils import keyboard_confirm_decline_broadcasting
 from tgbot.handlers.broadcast_message import static_text
-from tgbot.handlers.broadcast_message.utils import send_message
+from tgbot.handlers.broadcast_message.utils import _send_message
 from tgbot.handlers.utils.info import extract_user_data_from_update
 from tgbot.models import User
 from tgbot.tasks import broadcast_message
 
 
-def broadcast_command_with_message(update, context):
+def broadcast_command_with_message(update: Update, context):
     """ Type /broadcast <some_text>. Then check your message in Markdown format and broadcast to users."""
     u = User.get_user(update, context)
     user_id = extract_user_data_from_update(update)['user_id']
@@ -24,7 +25,7 @@ def broadcast_command_with_message(update, context):
         markup = keyboard_confirm_decline_broadcasting()
 
     try:
-        send_message(
+        _send_message(
             user_id=user_id,
             text=text,
             parse_mode=telegram.ParseMode.MARKDOWN,
@@ -35,13 +36,13 @@ def broadcast_command_with_message(update, context):
         text_error = static_text.error_with_markdown
         if len(place_where_mistake_begins):
             text_error += f"{static_text.specify_word_with_error}'{text[int(place_where_mistake_begins[0]):].split(' ')[0]}'"
-        send_message(
+        _send_message(
             text=text_error,
             user_id=user_id
         )
 
 
-def broadcast_decision_handler(update, context):
+def broadcast_decision_handler(update: Update, context) -> None:
     # callback_data: CONFIRM_DECLINE_BROADCAST variable from manage_data.py
     """ Entered /broadcast <some_text>.
         Shows text in Markdown style with two buttons:

@@ -1,11 +1,12 @@
 from functools import wraps
+from typing import Dict, Callable
 
 import telegram
+from telegram import Update
 
 
-def send_typing_action(func):
+def send_typing_action(func: Callable):
     """Sends typing action while processing func command."""
-
     @wraps(func)
     def command_func(update, context, *args, **kwargs):
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
@@ -14,7 +15,7 @@ def send_typing_action(func):
     return command_func
 
 
-def extract_user_data_from_update(update):
+def extract_user_data_from_update(update: Update) -> Dict:
     """ python-telegram-bot's Update instance --> User info """
     if update.message is not None:
         user = update.message.from_user.to_dict()

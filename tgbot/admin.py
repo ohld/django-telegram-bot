@@ -10,7 +10,7 @@ from tgbot.models import User
 from tgbot.forms import BroadcastForm
 
 from tgbot.tasks import broadcast_message
-from tgbot.handlers.broadcast_message.utils import send_message
+from tgbot.handlers.broadcast_message.utils import _send_message
 
 
 @admin.register(User)
@@ -34,7 +34,7 @@ class UserAdmin(admin.ModelAdmin):
             # TODO: for all platforms?
             if DEBUG:  # for test / debug purposes - run in same thread
                 for user_id in user_ids:
-                    send_message(
+                    _send_message(
                         user_id=user_id,
                         text=broadcast_message_text,
                         parse_mode=ParseMode.MARKDOWN

@@ -1,4 +1,10 @@
+from __future__ import annotations
+
+from typing import Union, Optional, Tuple
+
 from django.db import models
+from django.db.models import QuerySet
+from telegram import Update
 
 from dtb.settings import DEBUG
 from tgbot.handlers.utils.info import extract_user_data_from_update
@@ -23,7 +29,7 @@ class User(CreateUpdateTracker):
         return f'@{self.username}' if self.username is not None else f'{self.user_id}'
 
     @classmethod
-    def get_user_and_created(cls, update, context):
+    def get_user_and_created(cls, update: Update, context) -> Tuple[User, bool]:
         """ python-telegram-bot's Update, Context --> User instance """
         data = extract_user_data_from_update(update)
         u, created = cls.objects.update_or_create(user_id=data["user_id"], defaults=data)
@@ -39,19 +45,20 @@ class User(CreateUpdateTracker):
         return u, created
 
     @classmethod
-    def get_user(cls, update, context):
+    def get_user(cls, update: Update, context) -> User:
         u, _ = cls.get_user_and_created(update, context)
         return u
 
     @classmethod
-    def get_user_by_username_or_user_id(cls, string):
+    def get_user_by_username_or_user_id(cls, username_or_user_id: Union[str, int]) -> Optional[User]:
         """ Search user in DB, return User or None if not found """
-        username = str(string).replace("@", "").strip().lower()
+        username = str(username_or_user_id).replace("@", "").strip().lower()
         if username.isdigit():  # user_id
             return cls.objects.filter(user_id=int(username)).first()
         return cls.objects.filter(username__iexact=username).first()
 
-    def invited_users(self):  # --> User queryset 
+    @property
+    def invited_users(self) -> QuerySet[User]:
         return User.objects.filter(deep_link=str(self.user_id), created_at__gt=self.created_at)
 
 

@@ -1,3 +1,5 @@
+from typing import Union, Optional, Dict
+
 import telegram
 from telegram import MessageEntity
 
@@ -5,15 +7,24 @@ from dtb.settings import TELEGRAM_TOKEN
 from tgbot.models import User
 
 
-def send_message(user_id, text, parse_mode=None, reply_markup=None, reply_to_message_id=None,
-                 disable_web_page_preview=None, entities=None, tg_token=TELEGRAM_TOKEN):
+def _send_message(
+    user_id: Union[str, int],
+    text: str,
+    parse_mode: Optional[str] = None,
+    reply_markup: Optional[Dict] = None,
+    reply_to_message_id: Optional[int] = None,
+    disable_web_page_preview: Optional[bool] = None,
+    entities: Optional[Dict] = None,
+    tg_token: str = TELEGRAM_TOKEN,
+) -> bool:
     bot = telegram.Bot(tg_token)
     try:
         if entities:
             entities = [
-                MessageEntity(type=entity['type'],
-                              offset=entity['offset'],
-                              length=entity['length']
+                MessageEntity(
+                    type=entity['type'],
+                    offset=entity['offset'],
+                    length=entity['length']
                 )
                 for entity in entities
             ]

@@ -1,7 +1,7 @@
 import datetime
 
 from django.utils import timezone
-from telegram import ParseMode
+from telegram import ParseMode, Update
 
 from tgbot.handlers.onboarding import static_text
 from tgbot.handlers.utils.info import extract_user_data_from_update
@@ -9,7 +9,7 @@ from tgbot.models import User
 from tgbot.handlers.onboarding.keyboard_utils import make_keyboard_for_start_command
 
 
-def command_start(update, context):
+def command_start(update: Update, context) -> None:
     u, created = User.get_user_and_created(update, context)
 
     if created:
@@ -21,7 +21,7 @@ def command_start(update, context):
                               reply_markup=make_keyboard_for_start_command())
 
 
-def secret_level(update, context):
+def secret_level(update: Update, context) -> None:
     # callback_data: SECRET_LEVEL_BUTTON variable from manage_data.py
     """ Pressed 'secret_level_button_text' after /start command"""
     user_id = extract_user_data_from_update(update)['user_id']

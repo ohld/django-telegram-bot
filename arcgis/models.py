@@ -1,3 +1,5 @@
+from typing import Dict
+
 import requests
 from django.db import models
 
@@ -40,42 +42,42 @@ class Arcgis(CreateTracker):
         return f"{self.location}, city: {self.city}, country_code: {self.country_code}"
 
     @classmethod
-    def from_json(cls, j, location_id):
-        a, l = j.get("address"), j.get("location")
+    def from_json(cls, arcgis_json: Dict, location_id: int) -> None:
+        address, location = arcgis_json.get("address"), arcgis_json.get("location")
 
-        if "address" not in j or "location" not in j:
+        if "address" not in arcgis_json or "location" not in arcgis_json:
             return
 
         arcgis_data = {
-            "match_addr": a.get("Match_addr"),
-            "long_label": a.get("LongLabel"),
-            "short_label": a.get("ShortLabel"),
-            "addr_type": a.get("Addr_type"),
-            "location_type": a.get("Type"),
-            "place_name": a.get("PlaceName"),
-            "add_num": a.get("AddNum"),
-            "address": a.get("Address"),
-            "block": a.get("Block"),
-            "sector": a.get("Sector"),
-            "neighborhood": a.get("Neighborhood"),
-            "district": a.get("District"),
-            "city": a.get("City"),
-            "metro_area": a.get("MetroArea"),
-            "subregion": a.get("Subregion"),
-            "region": a.get("Region"),
-            "territory": a.get("Territory"),
-            "postal": a.get("Postal"),
-            "postal_ext": a.get("PostalExt"),
-            "country_code": a.get("CountryCode"),
-            "lng": l.get("x"),
-            "lat": l.get("y")
+            "match_addr": address.get("Match_addr"),
+            "long_label": address.get("LongLabel"),
+            "short_label": address.get("ShortLabel"),
+            "addr_type": address.get("Addr_type"),
+            "location_type": address.get("Type"),
+            "place_name": address.get("PlaceName"),
+            "add_num": address.get("AddNum"),
+            "address": address.get("Address"),
+            "block": address.get("Block"),
+            "sector": address.get("Sector"),
+            "neighborhood": address.get("Neighborhood"),
+            "district": address.get("District"),
+            "city": address.get("City"),
+            "metro_area": address.get("MetroArea"),
+            "subregion": address.get("Subregion"),
+            "region": address.get("Region"),
+            "territory": address.get("Territory"),
+            "postal": address.get("Postal"),
+            "postal_ext": address.get("PostalExt"),
+            "country_code": address.get("CountryCode"),
+            "lng": location.get("x"),
+            "lat": location.get("y")
         }
 
         arc, _ = cls.objects.update_or_create(location_id=location_id, defaults=arcgis_data)
         return
 
     @staticmethod
-    def reverse_geocode(lat, lng):
+    def reverse_geocode(lat: float, lng: float) -> Dict:
         r = requests.post(
             "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode",
             params={

@@ -1,11 +1,12 @@
 import telegram
+from telegram import Update
 
 from tgbot.handlers.location.static_text import share_location, thanks_for_location
 from tgbot.handlers.location.keyboard_utils import send_location_keyboard
 from tgbot.models import User, Location
 
 
-def ask_for_location(update, context):
+def ask_for_location(update: Update, context) -> None:
     """ Entered /ask_location command"""
     u = User.get_user(update, context)
 
@@ -16,7 +17,7 @@ def ask_for_location(update, context):
     )
 
 
-def location_handler(update, context):
+def location_handler(update: Update, context) -> None:
     # receiving user's location
     u = User.get_user(update, context)
     lat, lon = update.message.location.latitude, update.message.location.longitude

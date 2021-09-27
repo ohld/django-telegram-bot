@@ -1,24 +1,23 @@
 from datetime import timedelta
 
 from django.utils.timezone import now
-from telegram import ParseMode
+from telegram import ParseMode, Update
 
 from tgbot.handlers.admin import static_text
 from tgbot.handlers.admin.utils import _get_csv_from_qs_values
 from tgbot.models import User
 
 
-def admin(update, context):
+def admin(update: Update, context) -> None:
     """ Show help info about all secret admins commands """
     u = User.get_user(update, context)
     if not u.is_admin:
         update.message.reply_text(static_text.only_for_admins)
         return
+    update.message.reply_text(static_text.secret_admin_commands)
 
-    return update.message.reply_text(static_text.secret_admin_commands)
 
-
-def stats(update, context):
+def stats(update: Update, context) -> None:
     """ Show help info about all secret admins commands """
     u = User.get_user(update, context)
     if not u.is_admin:
@@ -30,14 +29,14 @@ def stats(update, context):
         active_24=User.objects.filter(updated_at__gte=now() - timedelta(hours=24)).count()
     )
 
-    return update.message.reply_text(
+    update.message.reply_text(
         text,
         parse_mode=ParseMode.MARKDOWN,
         disable_web_page_preview=True,
     )
 
 
-def export_users(update, context):
+def export_users(update: Update, context) -> None:
     u = User.get_user(update, context)
     if not u.is_admin:
         update.message.reply_text(static_text.only_for_admins)

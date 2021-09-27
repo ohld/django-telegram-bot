@@ -106,7 +106,7 @@ def process_telegram_event(update_json):
     dispatcher.process_update(update)
 
 
-def set_up_commands(bot_instance: Bot):
+def set_up_commands(bot_instance: Bot) -> None:
     langs_with_commands: Dict[str, Dict[str, str]] = {
         'en': {
             'start': 'Start django bot 🚀',
