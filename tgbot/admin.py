@@ -36,11 +36,10 @@ class UserAdmin(admin.ModelAdmin):
                     _send_message(
                         user_id=user_id,
                         text=broadcast_message_text,
-                        parse_mode=ParseMode.HTML
                     )
                 self.message_user(request, f"Just broadcasted to {len(queryset)} users")
             else:
-                broadcast_message.delay(message=broadcast_message_text, user_ids=list(user_ids))
+                broadcast_message.delay(text=broadcast_message_text, user_ids=list(user_ids))
                 self.message_user(request, f"Broadcasting of {len(queryset)} messages has been started")
 
             return HttpResponseRedirect(request.get_full_path())
