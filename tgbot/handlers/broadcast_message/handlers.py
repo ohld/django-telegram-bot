@@ -53,7 +53,6 @@ def broadcast_decision_handler(update: Update, context) -> None:
     broadcast_decision = update.callback_query.data[len(CONFIRM_DECLINE_BROADCAST):]
 
     entities_for_celery = update.callback_query.message.to_dict().get('entities')
-    reply_markup_for_celery = update.callback_query.message.reply_markup.to_dict().get('inline_keyboard')
     entities, text = update.callback_query.message.entities, update.callback_query.message.text
 
     if broadcast_decision == CONFIRM_BROADCAST:
@@ -65,7 +64,6 @@ def broadcast_decision_handler(update: Update, context) -> None:
             user_ids=user_ids,
             text=text,
             entities=entities_for_celery,
-            reply_markup=reply_markup_for_celery,
         )
     else:
         context.bot.send_message(
