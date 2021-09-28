@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 
@@ -153,13 +154,13 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'
 # -----> TELEGRAM
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 if TELEGRAM_TOKEN is None:
-    print(
-        "ERROR: Please provide TELEGRAM_TOKEN in .env file.",
-        "Example of .env file: https://github.com/ohld/django-telegram-bot/blob/main/.env_example",
-        sep='\n'
+    logging.error(
+        "Please provide TELEGRAM_TOKEN in .env file.\n"
+        "Example of .env file: https://github.com/ohld/django-telegram-bot/blob/main/.env_example"
     )
     sys.exit(1)
 
+TELEGRAM_LOGS_CHAT_ID = os.getenv("TELEGRAM_LOGS_CHAT_ID", default=None)
 
 # -----> SENTRY
 # import sentry_sdk

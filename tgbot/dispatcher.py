@@ -2,6 +2,7 @@
     Telegram event handlers
 """
 import sys
+import logging
 from typing import Dict
 
 import telegram.error
@@ -15,7 +16,7 @@ from telegram.ext import (
 from dtb.celery import app  # event processing in async mode
 from dtb.settings import TELEGRAM_TOKEN, DEBUG
 
-from tgbot.handlers.utils import files
+from tgbot.handlers.utils import files, error
 from tgbot.handlers.admin import handlers as admin_handlers
 from tgbot.handlers.location import handlers as location_handlers
 from tgbot.handlers.onboarding import handlers as onboarding_handlers
@@ -57,6 +58,9 @@ def setup_dispatcher(dp):
         Filters.animation, files.show_file_id,
     ))
 
+    # handling errors
+    dp.add_error_handler(error.send_stacktrace_to_tg_chat)
+
     # EXAMPLES FOR HANDLERS
     # dp.add_handler(MessageHandler(Filters.text, <function_handler>))
     # dp.add_handler(MessageHandler(
@@ -96,7 +100,7 @@ bot = Bot(TELEGRAM_TOKEN)
 try:
     TELEGRAM_BOT_USERNAME = bot.get_me()["username"]
 except telegram.error.Unauthorized:
-    print(f"ERROR: Invalid TELEGRAM_TOKEN.")
+    logging.error(f"Invalid TELEGRAM_TOKEN.")
     sys.exit(1)
 
 

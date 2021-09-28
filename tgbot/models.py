@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Union, Optional, Tuple
+from typing import Union, Optional, Tuple, Dict
 
 from django.db import models
 from django.db.models import QuerySet
@@ -60,6 +60,12 @@ class User(CreateUpdateTracker):
     @property
     def invited_users(self) -> QuerySet[User]:
         return User.objects.filter(deep_link=str(self.user_id), created_at__gt=self.created_at)
+
+    @property
+    def tg_str(self) -> str:
+        if self.username:
+            return f'@{self.username}'
+        return f"{self.first_name} {self.last_name}" if self.last_name else f"{self.first_name}"
 
 
 class Location(CreateTracker):
