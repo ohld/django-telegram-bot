@@ -37,6 +37,7 @@ from typing import Dict
 
 import telegram
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from tgbot.models import User
 
@@ -55,7 +56,7 @@ def _get_file_id(m: Dict) -> str:
         return best_photo["file_id"]
 
 
-def show_file_id(update: Update, context) -> None:
+def show_file_id(update: Update, context: CallbackContext) -> None:
     """ Returns file_id of the attached file/media """
     u = User.get_user(update, context)
 

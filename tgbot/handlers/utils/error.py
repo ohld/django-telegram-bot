@@ -4,12 +4,13 @@ import html
 
 import telegram
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from dtb.settings import TELEGRAM_LOGS_CHAT_ID
 from tgbot.models import User
 
 
-def send_stacktrace_to_tg_chat(update: Update, context) -> None:
+def send_stacktrace_to_tg_chat(update: Update, context: CallbackContext) -> None:
     u = User.get_user(update, context)
 
     logging.error("Exception while handling an update:", exc_info=context.error)

@@ -2,6 +2,7 @@ import re
 
 import telegram
 from telegram import Update
+from telegram.ext import CallbackContext
 
 from .manage_data import CONFIRM_DECLINE_BROADCAST, CONFIRM_BROADCAST
 from .keyboards import keyboard_confirm_decline_broadcasting
@@ -11,7 +12,7 @@ from tgbot.models import User
 from tgbot.tasks import broadcast_message
 
 
-def broadcast_command_with_message(update: Update, context):
+def broadcast_command_with_message(update: Update, context: CallbackContext):
     """ Type /broadcast <some_text>. Then check your message in HTML format and broadcast to users."""
     u = User.get_user(update, context)
 
@@ -44,7 +45,7 @@ def broadcast_command_with_message(update: Update, context):
             )
 
 
-def broadcast_decision_handler(update: Update, context) -> None:
+def broadcast_decision_handler(update: Update, context: CallbackContext) -> None:
     # callback_data: CONFIRM_DECLINE_BROADCAST variable from manage_data.py
     """ Entered /broadcast <some_text>.
         Shows text in HTML style with two buttons:

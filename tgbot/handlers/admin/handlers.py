@@ -2,13 +2,14 @@ from datetime import timedelta
 
 from django.utils.timezone import now
 from telegram import ParseMode, Update
+from telegram.ext import CallbackContext
 
 from tgbot.handlers.admin import static_text
 from tgbot.handlers.admin.utils import _get_csv_from_qs_values
 from tgbot.models import User
 
 
-def admin(update: Update, context) -> None:
+def admin(update: Update, context: CallbackContext) -> None:
     """ Show help info about all secret admins commands """
     u = User.get_user(update, context)
     if not u.is_admin:
@@ -17,7 +18,7 @@ def admin(update: Update, context) -> None:
     update.message.reply_text(static_text.secret_admin_commands)
 
 
-def stats(update: Update, context) -> None:
+def stats(update: Update, context: CallbackContext) -> None:
     """ Show help info about all secret admins commands """
     u = User.get_user(update, context)
     if not u.is_admin:
@@ -36,7 +37,7 @@ def stats(update: Update, context) -> None:
     )
 
 
-def export_users(update: Update, context) -> None:
+def export_users(update: Update, context: CallbackContext) -> None:
     u = User.get_user(update, context)
     if not u.is_admin:
         update.message.reply_text(static_text.only_for_admins)
