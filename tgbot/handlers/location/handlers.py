@@ -2,7 +2,7 @@ import telegram
 from telegram import Update
 
 from tgbot.handlers.location.static_text import share_location, thanks_for_location
-from tgbot.handlers.location.keyboard_utils import send_location_keyboard
+from tgbot.handlers.location.keyboards import send_location_keyboard
 from tgbot.models import User, Location
 
 
