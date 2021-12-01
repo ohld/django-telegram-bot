@@ -5,7 +5,7 @@ from django.db import models
 
 # Create your models here.
 from tgbot.models import Location
-from utils.models import CreateTracker
+from utils.models import CreateTracker, GetOrNoneManager
 
 
 class Arcgis(CreateTracker):
@@ -37,6 +37,8 @@ class Arcgis(CreateTracker):
 
     lng = models.DecimalField(max_digits=21, decimal_places=18)
     lat = models.DecimalField(max_digits=21, decimal_places=18)
+
+    objects = GetOrNoneManager()
 
     def __str__(self):
         return f"{self.location}, city: {self.city}, country_code: {self.country_code}"

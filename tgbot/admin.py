@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from telegram import ParseMode
 
 from dtb.settings import DEBUG
 
@@ -20,7 +19,7 @@ class UserAdmin(admin.ModelAdmin):
         'language_code', 'deep_link',
         'created_at', 'updated_at', "is_blocked_bot",
     ]
-    list_filter = ["is_blocked_bot", "is_moderator"]
+    list_filter = ["is_blocked_bot", ]
     search_fields = ('username', 'user_id')
 
     actions = ['broadcast']

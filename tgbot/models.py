@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-from typing import Union, Optional, Tuple, Dict
+from typing import Union, Optional, Tuple
 
 from django.db import models
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Manager
 from telegram import Update
 from telegram.ext import CallbackContext
 
 from dtb.settings import DEBUG
 from tgbot.handlers.utils.info import extract_user_data_from_update
-from utils.models import CreateUpdateTracker, nb, CreateTracker
+from utils.models import CreateUpdateTracker, nb, CreateTracker, GetOrNoneManager
+
+
+class AdminUserManager(Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_admin=True)
 
 
 class User(CreateUpdateTracker):
@@ -21,11 +26,12 @@ class User(CreateUpdateTracker):
     deep_link = models.CharField(max_length=64, **nb)
 
     is_blocked_bot = models.BooleanField(default=False)
-    is_banned = models.BooleanField(default=False)
 
     is_admin = models.BooleanField(default=False)
-    is_moderator = models.BooleanField(default=False)
-    
+
+    objects = GetOrNoneManager()  # user = User.objects.get_or_none(user_id=<some_id>)
+    admins = AdminUserManager()  # User.admins.all()
+
     def __str__(self):
         return f'@{self.username}' if self.username is not None else f'{self.user_id}'
 
@@ -73,6 +79,8 @@ class Location(CreateTracker):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     latitude = models.FloatField()
     longitude = models.FloatField()
+
+    objects = GetOrNoneManager()
 
     def __str__(self):
         return f"user: {self.user}, created at {self.created_at.strftime('(%H:%M, %d %B %Y)')}"
