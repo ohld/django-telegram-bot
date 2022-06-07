@@ -16,6 +16,7 @@ Sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub A
 * Reverse geocode of user via [ArcGis](https://www.arcgis.com/)
 * Export all users in `.csv`
 * Native telegram [commands in menu](https://github.com/ohld/django-telegram-bot/blob/main/.github/imgs/bot_commands_example.jpg)
+  * In order to edit or delete these commands you'll need to use `set_my_commands` bot's method just like in [tgbot.dispatcher.setup_my_commands](https://github.com/ohld/django-telegram-bot/blob/main/tgbot/dispatcher.py#L150-L156)
 
 Built-in Telegram bot methods:
 * `/broadcast` — send message to all users (admin command)
