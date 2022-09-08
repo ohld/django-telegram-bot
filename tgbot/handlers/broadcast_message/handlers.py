@@ -4,6 +4,7 @@ import telegram
 from telegram import Update
 from telegram.ext import CallbackContext
 
+from dtb.settings import DEBUG
 from .manage_data import CONFIRM_DECLINE_BROADCAST, CONFIRM_BROADCAST
 from .keyboards import keyboard_confirm_decline_broadcasting
 from .static_text import broadcast_command, broadcast_wrong_format, broadcast_no_access, error_with_html, \
@@ -60,12 +61,19 @@ def broadcast_decision_handler(update: Update, context: CallbackContext) -> None
         admin_text = message_is_sent
         user_ids = list(User.objects.all().values_list('user_id', flat=True))
 
-        # send in async mode via celery
-        broadcast_message.delay(
-            user_ids=user_ids,
-            text=text,
-            entities=entities_for_celery,
-        )
+        if DEBUG:
+            broadcast_message(
+                user_ids=user_ids,
+                text=text,
+                entities=entities_for_celery,
+            )
+        else:
+            # send in async mode via celery
+            broadcast_message.delay(
+                user_ids=user_ids,
+                text=text,
+                entities=entities_for_celery,
+            )
     else:
         context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
