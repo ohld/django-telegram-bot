@@ -76,8 +76,8 @@ def setup_dispatcher(dp):
     return dp
 
 
-def run_pooling():
-    """ Run bot in pooling mode """
+def run_polling():
+    """ Run bot in polling mode """
     updater = Updater(TELEGRAM_TOKEN, use_context=True)
 
     dp = updater.dispatcher
@@ -86,7 +86,7 @@ def run_pooling():
     bot_info = Bot(TELEGRAM_TOKEN).get_me()
     bot_link = f"https://t.me/" + bot_info["username"]
 
-    print(f"Pooling of '{bot_link}' started")
+    print(f"Polling of '{bot_link}' has started")
     # it is really useful to send '👋' emoji to developer
     # when you run local test
     # bot.send_message(text='👋', chat_id=<YOUR TELEGRAM ID>)

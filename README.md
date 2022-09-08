@@ -12,7 +12,7 @@ Sexy Django + python-telegram-bot + Celery + Redis + Postgres + Dokku + GitHub A
 * Admin panel (thanks to [Django](https://docs.djangoproject.com/en/3.1/intro/tutorial01/))
 * Background jobs using [Celery](https://docs.celeryproject.org/en/stable/)
 * [Production-ready](https://github.com/ohld/django-telegram-bot/wiki/Production-Deployment-using-Dokku) deployment using [Dokku](https://dokku.com)
-* Telegram API usage in pooling or [webhook mode](https://core.telegram.org/bots/api#setwebhook)
+* Telegram API usage in polling or [webhook mode](https://core.telegram.org/bots/api#setwebhook)
 * Reverse geocode of user via [ArcGis](https://www.arcgis.com/)
 * Export all users in `.csv`
 * Native telegram [commands in menu](https://github.com/ohld/django-telegram-bot/blob/main/.github/imgs/bot_commands_example.jpg)
@@ -28,9 +28,9 @@ Check out our [Wiki](https://github.com/ohld/django-telegram-bot/wiki) for more 
 
 # How to run
 
-## Quickstart: Pooling & SQLite
+## Quickstart: Polling & SQLite
 
-The fastest way to run the bot is to run it in pooling mode using SQLite database without all Celery workers for background jobs. This should be enough for quickstart:
+The fastest way to run the bot is to run it in polling mode using SQLite database without all Celery workers for background jobs. This should be enough for quickstart:
 
 ``` bash
 git clone https://github.com/ohld/django-telegram-bot
@@ -65,9 +65,9 @@ Create superuser to get access to admin panel:
 python manage.py createsuperuser
 ```
 
-Run bot in pooling mode:
+Run bot in polling mode:
 ``` bash
-python run_pooling.py 
+python run_polling.py 
 ```
 
 If you want to open Django admin panel which will be located on http://localhost:8000/tgadmin/:
