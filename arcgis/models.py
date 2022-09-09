@@ -4,7 +4,7 @@ import requests
 from django.db import models
 
 # Create your models here.
-from tgbot.models import Location
+from users.models import Location
 from utils.models import CreateTracker, GetOrNoneManager
 
 

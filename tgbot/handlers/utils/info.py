@@ -4,12 +4,15 @@ from typing import Dict, Callable
 import telegram
 from telegram import Update
 
+from tgbot.main import bot
+
 
 def send_typing_action(func: Callable):
     """Sends typing action while processing func command."""
     @wraps(func)
     def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
+        bot.send_chat_action(
+            chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
         return func(update, context,  *args, **kwargs)
 
     return command_func

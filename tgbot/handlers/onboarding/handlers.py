@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 
 from tgbot.handlers.onboarding import static_text
 from tgbot.handlers.utils.info import extract_user_data_from_update
-from tgbot.models import User
+from users.models import User
 from tgbot.handlers.onboarding.keyboards import make_keyboard_for_start_command
 
 

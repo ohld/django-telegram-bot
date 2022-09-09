@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 
 from tgbot.handlers.admin import static_text
 from tgbot.handlers.admin.utils import _get_csv_from_qs_values
-from tgbot.models import User
+from users.models import User
 
 
 def admin(update: Update, context: CallbackContext) -> None:

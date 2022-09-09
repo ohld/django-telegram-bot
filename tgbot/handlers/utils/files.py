@@ -39,7 +39,7 @@ import telegram
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from tgbot.models import User
+from users.models import User
 
 ALL_TG_FILE_TYPES = ["document", "video_note", "voice", "sticker", "audio", "video", "animation", "photo"]
 

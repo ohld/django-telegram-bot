@@ -4,10 +4,10 @@ import telegram
 from telegram import MessageEntity, InlineKeyboardButton, InlineKeyboardMarkup
 
 from dtb.settings import TELEGRAM_TOKEN
-from tgbot.models import User
+from users.models import User
 
 
-def _from_celery_markup_to_markup(celery_markup: Optional[List[List[Dict]]]) -> Optional[InlineKeyboardMarkup]:
+def from_celery_markup_to_markup(celery_markup: Optional[List[List[Dict]]]) -> Optional[InlineKeyboardMarkup]:
     markup = None
     if celery_markup:
         markup = []
@@ -26,7 +26,7 @@ def _from_celery_markup_to_markup(celery_markup: Optional[List[List[Dict]]]) -> 
     return markup
 
 
-def _from_celery_entities_to_entities(celery_entities: Optional[List[Dict]] = None) -> Optional[List[MessageEntity]]:
+def from_celery_entities_to_entities(celery_entities: Optional[List[Dict]] = None) -> Optional[List[MessageEntity]]:
     entities = None
     if celery_entities:
         entities = [
@@ -42,7 +42,7 @@ def _from_celery_entities_to_entities(celery_entities: Optional[List[Dict]] = No
     return entities
 
 
-def _send_message(
+def send_one_message(
     user_id: Union[str, int],
     text: str,
     parse_mode: Optional[str] = telegram.ParseMode.HTML,

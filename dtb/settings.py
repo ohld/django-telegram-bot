@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     # local apps
-    'tgbot.apps.TgbotConfig',
+    'users.apps.UsersConfig',
     'arcgis',
 ]
 
