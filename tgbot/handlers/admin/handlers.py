@@ -6,6 +6,7 @@ from telegram.ext import CallbackContext
 
 from tgbot.handlers.admin import static_text
 from tgbot.handlers.admin.utils import _get_csv_from_qs_values
+from tgbot.handlers.utils.info import send_typing_action
 from users.models import User
 
 
@@ -37,6 +38,7 @@ def stats(update: Update, context: CallbackContext) -> None:
     )
 
 
+@send_typing_action
 def export_users(update: Update, context: CallbackContext) -> None:
     u = User.get_user(update, context)
     if not u.is_admin:
