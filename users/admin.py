@@ -4,12 +4,12 @@ from django.shortcuts import render
 
 from dtb.settings import DEBUG
 
-from tgbot.models import Location
-from tgbot.models import User
-from tgbot.forms import BroadcastForm
+from users.models import Location
+from users.models import User
+from users.forms import BroadcastForm
 
-from tgbot.tasks import broadcast_message
-from tgbot.handlers.broadcast_message.utils import _send_message
+from users.tasks import broadcast_message
+from tgbot.handlers.broadcast_message.utils import send_one_message
 
 
 @admin.register(User)
@@ -32,7 +32,7 @@ class UserAdmin(admin.ModelAdmin):
 
             if DEBUG:  # for test / debug purposes - run in same thread
                 for user_id in user_ids:
-                    _send_message(
+                    send_one_message(
                         user_id=user_id,
                         text=broadcast_message_text,
                     )

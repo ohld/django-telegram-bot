@@ -4,7 +4,7 @@ from telegram.ext import CallbackContext
 
 from tgbot.handlers.location.static_text import share_location, thanks_for_location
 from tgbot.handlers.location.keyboards import send_location_keyboard
-from tgbot.models import User, Location
+from users.models import User, Location
 
 
 def ask_for_location(update: Update, context: CallbackContext) -> None:

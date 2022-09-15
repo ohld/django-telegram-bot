@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('tgbot', '0001_initial'),
+        ('users', '0001_initial'),
     ]
 
     operations = [
@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='Arcgis',
             fields=[
                 ('created_at', models.DateTimeField(auto_now_add=True, db_index=True)),
-                ('location', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='tgbot.location')),
+                ('location', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='users.location')),
                 ('match_addr', models.CharField(max_length=200)),
                 ('long_label', models.CharField(max_length=200)),
                 ('short_label', models.CharField(max_length=128)),

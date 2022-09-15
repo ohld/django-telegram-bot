@@ -9,8 +9,8 @@ import telegram
 
 from dtb.celery import app
 from celery.utils.log import get_task_logger
-from tgbot.handlers.broadcast_message.utils import _send_message, _from_celery_entities_to_entities, \
-    _from_celery_markup_to_markup
+from tgbot.handlers.broadcast_message.utils import send_one_message, from_celery_entities_to_entities, \
+    from_celery_markup_to_markup
 
 logger = get_task_logger(__name__)
 
@@ -27,11 +27,11 @@ def broadcast_message(
     """ It's used to broadcast message to big amount of users """
     logger.info(f"Going to send message: '{text}' to {len(user_ids)} users")
 
-    entities_ = _from_celery_entities_to_entities(entities)
-    reply_markup_ = _from_celery_markup_to_markup(reply_markup)
+    entities_ = from_celery_entities_to_entities(entities)
+    reply_markup_ = from_celery_markup_to_markup(reply_markup)
     for user_id in user_ids:
         try:
-            _send_message(
+            send_one_message(
                 user_id=user_id,
                 text=text,
                 entities=entities_,

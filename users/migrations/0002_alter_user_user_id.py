@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tgbot', '0001_initial'),
+        ('users', '0001_initial'),
     ]
 
     operations = [
