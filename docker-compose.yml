@@ -20,6 +20,7 @@ services:
   web:
     build: .
     container_name: dtb_django
+    restart: always
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
@@ -32,6 +33,7 @@ services:
   bot:
     build: .
     container_name: dtb_bot
+    restart: always
     command: python run_polling.py
     env_file:
       - ./.env
@@ -40,6 +42,7 @@ services:
   celery:
     build: .
     container_name: dtb_celery
+    restart: always
     command: celery -A dtb worker --loglevel=INFO
     volumes:
       - .:/code
@@ -51,6 +54,7 @@ services:
   celery-beat:
     build: .
     container_name: dtb_beat
+    restart: always
     command: celery -A dtb beat -l info --scheduler django_celery_beat.schedulers.DatabaseScheduler
     volumes:
       - .:/code
