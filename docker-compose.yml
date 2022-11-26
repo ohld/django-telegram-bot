@@ -18,7 +18,9 @@ services:
     image: redis:alpine
     container_name: dtb_redis
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: LocalDockerfile
     container_name: dtb_django
     restart: always
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
@@ -31,7 +33,9 @@ services:
     depends_on:
       - db
   bot:
-    build: .
+    build:
+      context: .
+      dockerfile: LocalDockerfile
     container_name: dtb_bot
     restart: always
     command: python run_polling.py
@@ -40,7 +44,9 @@ services:
     depends_on:
       - web
   celery:
-    build: .
+    build:
+      context: .
+      dockerfile: LocalDockerfile
     container_name: dtb_celery
     restart: always
     command: celery -A dtb worker --loglevel=INFO
@@ -52,7 +58,9 @@ services:
       - redis
       - web
   celery-beat:
-    build: .
+    build:
+      context: .
+      dockerfile: LocalDockerfile
     container_name: dtb_beat
     restart: always
     command: celery -A dtb beat -l info --scheduler django_celery_beat.schedulers.DatabaseScheduler

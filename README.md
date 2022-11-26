@@ -63,11 +63,12 @@ Install all requirements:
 pip install -r requirements.txt
 ```
 
-Create `.env` file in root directory and copy-paste this:
+Create `.env` file in root directory and copy-paste this or just run `cp .env_example .env`,
+don't forget to change telegram token:
 ``` bash 
 DJANGO_DEBUG=True
 DATABASE_URL=sqlite:///db.sqlite3
-TELEGRAM_TOKEN=<ENTER YOUR TELEGRAM TOKEN HERE>
+TELEGRAM_TOKEN=<PASTE YOUR TELEGRAM TOKEN HERE>
 ```
 
 Run migrations to setup SQLite database:
@@ -98,7 +99,6 @@ You can switch to PostgreSQL just by uncommenting it's `DATABASE_URL` and commen
 ```bash
 cp .env_example .env
 ```
-
 
 ### Docker-compose
 
@@ -178,13 +178,13 @@ You might need to added `.env` variables to app, e.g. to specify Telegram token:
 dokku config:set dtb TELEGRAM_TOKEN=.....
 ```
 
-Let's explicitly specify python buildpack to not mess with `Dockerfile` which is used mostly for local testing right now.
+### Postgres and Redis
 
-``` bash
-dokku config:set dtb BUILDPACK_URL=https://github.com/heroku/heroku-buildpack-python.git#v191
-```
-
-**Postgres** and **Redis** are configured as Dokku plugins on a server. They will automatically add REDIS_URL & DATABASE_URL .env vars to the app after being linked. You might need to install these Dokku plugins before. [Install Postgres](https://github.com/dokku/dokku-postgres), [install Redis](https://github.com/dokku/dokku-redis).
+**Postgres** and **Redis** are configured as Dokku plugins on a server.
+They will automatically add REDIS_URL & DATABASE_URL .env vars to the app after being linked.
+You might need to install these Dokku plugins before.
+[Install Postgres](https://github.com/dokku/dokku-postgres),
+[install Redis](https://github.com/dokku/dokku-redis).
 
 ``` bash
 dokku postgres:create dtb
