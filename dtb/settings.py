@@ -45,7 +45,6 @@ INSTALLED_APPS = [
 
     # local apps
     'users.apps.UsersConfig',
-    'arcgis',
 ]
 
 MIDDLEWARE = [

@@ -7,7 +7,6 @@ from django.db.models import QuerySet, Manager
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from dtb.settings import DEBUG
 from tgbot.handlers.utils.info import extract_user_data_from_update
 from utils.models import CreateUpdateTracker, nb, CreateTracker, GetOrNoneManager
 
@@ -84,12 +83,3 @@ class Location(CreateTracker):
 
     def __str__(self):
         return f"user: {self.user}, created at {self.created_at.strftime('(%H:%M, %d %B %Y)')}"
-
-    def save(self, *args, **kwargs):
-        super(Location, self).save(*args, **kwargs)
-        # Parse location with arcgis
-        from arcgis.tasks import save_data_from_arcgis
-        if DEBUG:
-            save_data_from_arcgis(latitude=self.latitude, longitude=self.longitude, location_id=self.pk)
-        else:
-            save_data_from_arcgis.delay(latitude=self.latitude, longitude=self.longitude, location_id=self.pk)
