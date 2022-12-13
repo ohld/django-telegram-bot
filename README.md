@@ -33,12 +33,12 @@ Built-in Telegram bot methods:
 
 ## Content
 
-* [How to run locally](https://github.com/ohld/django-telegram-bot/edit/main/README.md#how-to-run)
-   * [Quickstart with polling and SQLite](https://github.com/ohld/django-telegram-bot/edit/main/README.md#quickstart-polling--sqlite)
-   * [Using docker-compose](https://github.com/ohld/django-telegram-bot/edit/main/README.md#run-locally-using-docker-compose)
-* [Deploy to production](https://github.com/ohld/django-telegram-bot/edit/main/README.md#deploy-to-production)
-   * [Using dokku](https://github.com/ohld/django-telegram-bot/edit/main/README.md#deploy-using-dokku-step-by-step)
-   * [Telegram webhook](https://github.com/ohld/django-telegram-bot/edit/main/README.md#https--telegram-bot-webhook)
+* [How to run locally](https://github.com/ohld/django-telegram-bot/#how-to-run)
+   * [Quickstart with polling and SQLite](https://github.com/ohld/django-telegram-bot/#quickstart-polling--sqlite)
+   * [Using docker-compose](https://github.com/ohld/django-telegram-bot/#run-locally-using-docker-compose)
+* [Deploy to production](https://github.com/ohld/django-telegram-bot/#deploy-to-production)
+   * [Using dokku](https://github.com/ohld/django-telegram-bot/#deploy-using-dokku-step-by-step)
+   * [Telegram webhook](https://github.com/ohld/django-telegram-bot/#https--telegram-bot-webhook)
 
 
 # How to run
