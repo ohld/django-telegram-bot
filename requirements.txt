@@ -24,7 +24,7 @@ redis==4.3.4
 django-celery-beat==2.3.0
 
 # Telegram
-python-telegram-bot==13.11  # last sync version
+python-telegram-bot==13.15  # last sync version
 
 # monitoring
 # sentry-sdk
