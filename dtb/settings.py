@@ -1,4 +1,7 @@
+import logging
 import os
+import sys
+
 import dj_database_url
 import dotenv
 
@@ -20,7 +23,10 @@ SECRET_KEY = os.getenv(
     'x%#3&%giwv8f0+%r946en7z&d@9*rc$sl0qoql56xr%bh^w2mj',
 )
 
-DEBUG = not not os.getenv("DJANGO_DEBUG", False)
+if os.environ.get('DJANGO_DEBUG', default=False) in ['True', 'true', '1', True]:
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ["*",]  # since Telegram uses a lot of IPs for webhooks
 
@@ -35,9 +41,10 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'django_celery_beat',
+    'debug_toolbar',
 
     # local apps
-    'tgbot.apps.TgbotConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -50,8 +57,15 @@ MIDDLEWARE = [
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'django.middleware.common.CommonMiddleware',
+]
+
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    # ...
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -83,7 +97,7 @@ ASGI_APPLICATION = 'dtb.asgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600),
+    'default': dj_database_url.config(conn_max_age=600, default="sqlite:///db.sqlite3"),
 }
 
 # Password validation
@@ -109,13 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'Europe/Moscow'
-
+TIME_ZONE = 'UTC'
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -142,11 +152,14 @@ CELERY_TASK_DEFAULT_QUEUE = 'default'
 
 # -----> TELEGRAM
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+if TELEGRAM_TOKEN is None:
+    logging.error(
+        "Please provide TELEGRAM_TOKEN in .env file.\n"
+        "Example of .env file: https://github.com/ohld/django-telegram-bot/blob/main/.env_example"
+    )
+    sys.exit(1)
 
-
-# -----> LOGGING
-ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
-
+TELEGRAM_LOGS_CHAT_ID = os.getenv("TELEGRAM_LOGS_CHAT_ID", default=None)
 
 # -----> SENTRY
 # import sentry_sdk
