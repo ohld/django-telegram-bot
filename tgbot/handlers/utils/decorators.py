@@ -4,11 +4,10 @@ from typing import Callable
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from tgbot.handlers.admin import static_text
 from users.models import User
 
 
-def admin_only(reply_message: str = static_text.only_for_admins):
+def admin_only(reply_message: str = None):
     """
     Admin only decorator
     Used for handlers that only admins have access to
