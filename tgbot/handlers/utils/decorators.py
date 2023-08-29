@@ -7,29 +7,22 @@ from telegram.ext import CallbackContext
 from users.models import User
 
 
-def admin_only(reply_message: str = None):
+def admin_only(func: Callable):
     """
     Admin only decorator
     Used for handlers that only admins have access to
-
-    @param reply_message: message to reply
     """
 
-    def decorator(func: Callable):
-        @wraps(func)
-        def inner(update: Update, context: CallbackContext, *args, **kwargs):
-            user = User.get_user(update, context)
+    @wraps(func)
+    def wrapper(update: Update, context: CallbackContext, *args, **kwargs):
+        user = User.get_user(update, context)
 
-            if not user.is_admin:
-                if reply_message is not None and update.effective_message:
-                    update.effective_message.reply_text(reply_message)
-                return
+        if not user.is_admin:
+            return
 
-            return func(update, context, *args, **kwargs)
+        return func(update, context, *args, **kwargs)
 
-        return inner
-
-    return decorator
+    return wrapper
 
 
 def send_typing_action(func: Callable):
