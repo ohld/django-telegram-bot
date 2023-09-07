@@ -1,21 +1,6 @@
-from functools import wraps
-from typing import Dict, Callable
+from typing import Dict
 
-import telegram
 from telegram import Update
-
-from tgbot.main import bot
-
-
-def send_typing_action(func: Callable):
-    """Sends typing action while processing func command."""
-    @wraps(func)
-    def command_func(update, context, *args, **kwargs):
-        bot.send_chat_action(
-            chat_id=update.effective_message.chat_id, action=telegram.ChatAction.TYPING)
-        return func(update, context,  *args, **kwargs)
-
-    return command_func
 
 
 def extract_user_data_from_update(update: Update) -> Dict:
